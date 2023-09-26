@@ -29,7 +29,8 @@ $(document).ready(function () {
                             closestLocation = location;
                         }
                     });
-                    alert("The closest location is: " + closestLocation.location);
+                    const userLocation = closestLocation.slug;
+                    document.cookie = "restaurantLocation=" + userLocation + "; path=/";
                 });
             });
         }
