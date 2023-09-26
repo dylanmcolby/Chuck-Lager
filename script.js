@@ -92,8 +92,8 @@ $(document).ready(function () {
         // Set text and href as before
         $('#nav-location-name').text(getCookie("restaurantLocation"));
         $('#nav-location-link').attr('href', restaurantSlug);
-        $('<div />').load(`${restaurantSlug} #addresses`, function() {
-            const newNavSelectedLocation = $(this).find('#nav-location-tile .nav_selected-location');
+        $('<div />').load(`${restaurantSlug} #nav-location-tile`, function() {
+            const newNavSelectedLocation = $(this).find('.nav_selected-location');
             $('.nav .nav-selected-location').replaceWith(newNavSelectedLocation);
         });
     }
