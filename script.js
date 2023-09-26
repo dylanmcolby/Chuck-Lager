@@ -1,36 +1,37 @@
 $(document).ready(function () {
     if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
+            var userLat = position.coords.latitude;
+            var userLng = position.coords.longitude;
             var tempDiv = $("<div>");
             tempDiv.load("/locations #addresses", function () {
-                var addresses = [];
-                tempDiv.find('.geo-address').each(function () {
-                    addresses.push($(this).text());
+                var locations = [];
+                tempDiv.find('.geo-location').each(function () {
+                    var location = {
+                        lat: parseFloat($(this).find('.geo-lat').text()),
+                        lng: parseFloat($(this).find('.geo-long').text()),
+                        address: $(this).find('.geo-address').text(),
+                        slug: $(this).find('.geo-slug').text(),
+                        location: $(this).find('.geo-location').text()
+                    };
+                    locations.push(location);
                 });
-                var closestAddress = "";
-                var shortestDistance = Number.MAX_VALUE;
-                addresses.forEach(function (address) {
-                    var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode({ 'address': address }, function (results, status) {
-                        if (status === 'OK') {
-                            var addrLat = results[0].geometry.location.lat();
-                            var addrLng = results[0].geometry.location.lng();
-                            var distance = Math.sqrt(Math.pow(addrLat - lat, 2) + Math.pow(addrLng - lng, 2));
 
-                            if (distance < shortestDistance) {
-                                shortestDistance = distance;
-                                closestAddress = address;
-                            }
-                        }
-                    });
+                var closestLocation = null;
+                var shortestDistance = Number.MAX_VALUE;
+
+                locations.forEach(function (location) {
+                    var distance = Math.sqrt(Math.pow(location.lat - userLat, 2) + Math.pow(location.lng - userLng, 2));
+                    if (distance < shortestDistance) {
+                        shortestDistance = distance;
+                        closestLocation = location;
+                    }
                 });
+
                 setTimeout(function () {
-                    alert("The closest address is: " + closestAddress);
-                }, 500); 
+                    alert("The closest location is: " + closestLocation.location);
+                }, 500);
             });
         });
     }
-
 });
