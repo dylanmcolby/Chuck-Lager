@@ -1,9 +1,3 @@
-$(window).bind("pageshow", function(event) {
-    if (event.originalEvent.persisted) {
-        window.location.reload() 
-    }
-});
-
 $(document).ready(function () {
 
     function getCookie(name) {
