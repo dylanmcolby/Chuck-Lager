@@ -38,16 +38,18 @@ $(document).ready(function () {
                     document.cookie = "restaurantLocation=" + closestLocation.location; + "; path=/";
                     document.cookie = "restaurantSlug=" + closestLocation.slug; + "; path=/";
                     $('#nav-location-name').text(closestLocation.location);
-                    $('#nav-location-link').href(closestLocation.slug);
+                    $('#nav-location-link').attr('href', closestLocation.slug);
 
                 });
             });
         }
     };
+    
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug")) {
         setLocation();
     } else {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
-        $('#nav-location-link').href(getCookie("restaurantSlug"));
+        $('#nav-location-link').attr('href', getCookie("restaurantSlug"));
     }
+
 });
