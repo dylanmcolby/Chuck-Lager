@@ -94,6 +94,7 @@ $(document).ready(function () {
         $('#nav-location-link').attr('href', restaurantSlug);
         $('<div />').load(`${restaurantSlug} #nav-location-tile`, function() {
             const newNavSelectedLocation = $(this).find('.nav_selected-location');
+            console.log(newNavSelectedLocation);
             $('.nav .nav-selected-location').replaceWith(newNavSelectedLocation);
         });
     }
