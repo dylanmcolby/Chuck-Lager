@@ -38,7 +38,7 @@ $(document).ready(function () {
                 });
 
                 document.cookie = "restaurantLocation=" + closestLocation.location + "; path=/";
-                document.cookie = "restaurantSlug=" + closestLocation.slug + "; path=/";
+                document.cookie = "restaurantSlug=" + '/locations/' + closestLocation.slug + "; path=/";
                 $('#nav-location-name').text(closestLocation.location);
                 $('#nav-location-link').attr('href', '/locations/' + closestLocation.slug);
 
