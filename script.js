@@ -95,7 +95,7 @@ $(document).ready(function () {
         $('<div />').load(`${restaurantSlug} #nav-location-tile`, function() {
             const newNavSelectedLocation = $(this).find('.nav_selected-location');
             console.log(newNavSelectedLocation);
-            $('.nav .nav_selected-locationn').replaceWith(newNavSelectedLocation);
+            $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
         });
     }
 
