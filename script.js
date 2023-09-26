@@ -38,6 +38,7 @@ $(document).ready(function () {
                     document.cookie = "restaurantLocation=" + closestLocation.location; + "; path=/";
                     document.cookie = "restaurantSlug=" + closestLocation.slug; + "; path=/";
                     $('#nav-location-name').text(closestLocation.location);
+                    $('#nav-location-link').href(closestLocation.slug);
 
                 });
             });
@@ -47,5 +48,6 @@ $(document).ready(function () {
         setLocation();
     } else {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
+        $('#nav-location-link').href(getCookie("restaurantSlug"));
     }
 });
