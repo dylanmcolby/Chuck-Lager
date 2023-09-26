@@ -7,8 +7,10 @@ $(document).ready(function () {
     }
 
     const setLocation = function () {
+        var date = new Date();
+        date.setDate(date.getDate() + 7);
+        var expires = ";expires=" + date.toUTCString();
         var locationTimeout = setTimeout(useIpInfo, 8000); // Set a timeout to use ipinfo.io after 8 seconds
-
         // Trying to get the location using the Geolocation API
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -16,7 +18,7 @@ $(document).ready(function () {
                 var userLat = position.coords.latitude;
                 var userLng = position.coords.longitude;
                 processLocation(userLat, userLng);
-                document.cookie = "locationProximity=exact";
+                document.cookie = "locationProximity=exact" + expires + "; path=/";;
             }, function (error) {
                 clearTimeout(locationTimeout); // Clear the timeout if there was an error
                 useIpInfo(); // Use ipinfo.io as a fallback
@@ -32,7 +34,7 @@ $(document).ready(function () {
                 var userLng = parseFloat(loc[1]);
                 processLocation(userLat, userLng);
             }, "jsonp");
-            document.cookie = "locationProximity=approx";
+            document.cookie = "locationProximity=approx" + expires + "; path=/";;
         }
 
         function processLocation(userLat, userLng) {
@@ -61,8 +63,8 @@ $(document).ready(function () {
                     }
                 });
 
-                document.cookie = "restaurantLocation=" + closestLocation.location + "; path=/";
-                document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + "; path=/";
+                document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/";
+                document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/";
                 $('#nav-location-name').text(closestLocation.location);
                 $('#nav-location-link').attr('href', '/locations/' + closestLocation.slug);
             });
