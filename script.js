@@ -6,7 +6,7 @@ $(document).ready(function () {
         if (parts.length === 2) return parts.pop().split(";").shift();
     }
 
-    const setLocation = function () {
+    const setAutoLocation = function () {
         var date = new Date();
         date.setDate(date.getDate() + 7);
         var expires = ";expires=" + date.toUTCString();
@@ -71,8 +71,29 @@ $(document).ready(function () {
         }
     };
 
+    const setManualLocation = function() {
+        $('.geo-select').on('click', function() {
+            var location = $(this).attr('data-location');
+            var slug = $(this).attr('data-slug');
+            
+            // Set the expiration date for the cookies to 7 days in the future
+            var date = new Date();
+            date.setDate(date.getDate() + 7);
+            var expires = ";expires=" + date.toUTCString();
+            
+            // Set the cookies
+            document.cookie = "restaurantLocation=" + location + expires + "; path=/";
+            document.cookie = "restaurantSlug=/locations/" + slug + expires + "; path=/";
+            
+            // Update the text and href on the page
+            $('#nav-location-name').text(location);
+            $('#nav-location-link').attr('href', '/locations/' + slug);
+        });
+    }
+
+    setManualLocation();
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug")) {
-        setLocation();
+        setAutoLocation();
     } else {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
         $('#nav-location-link').attr('href', getCookie("restaurantSlug"));
