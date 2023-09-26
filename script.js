@@ -7,12 +7,36 @@ $(document).ready(function () {
     }
 
     const setLocation = function () {
-        $.get("https://ipinfo.io", function (response) {
-            var loc = response.loc.split(','); 
-            var userLat = parseFloat(loc[0]);
-            var userLng = parseFloat(loc[1]);
-            var tempDiv = $("<div>");
+        var locationTimeout = setTimeout(useIpInfo, 8000); // Set a timeout to use ipinfo.io after 8 seconds
 
+        // Trying to get the location using the Geolocation API
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                clearTimeout(locationTimeout); // Clear the timeout if the location is obtained successfully
+                var userLat = position.coords.latitude;
+                var userLng = position.coords.longitude;
+                processLocation(userLat, userLng);
+                document.cookie = "locationProximity=exact";
+            }, function (error) {
+                clearTimeout(locationTimeout); // Clear the timeout if there was an error
+                useIpInfo(); // Use ipinfo.io as a fallback
+            });
+        } else {
+            useIpInfo(); // Use ipinfo.io if Geolocation API is not available
+        }
+
+        function useIpInfo() {
+            $.get("https://ipinfo.io", function (response) {
+                var loc = response.loc.split(','); // response.loc will be in "latitude,longitude" format
+                var userLat = parseFloat(loc[0]);
+                var userLng = parseFloat(loc[1]);
+                processLocation(userLat, userLng);
+            }, "jsonp");
+            document.cookie = "locationProximity=approx";
+        }
+
+        function processLocation(userLat, userLng) {
+            var tempDiv = $("<div>");
             tempDiv.load("/locations #addresses", function () {
                 var locations = [];
                 tempDiv.find('.geo-location').each(function () {
@@ -38,12 +62,11 @@ $(document).ready(function () {
                 });
 
                 document.cookie = "restaurantLocation=" + closestLocation.location + "; path=/";
-                document.cookie = "restaurantSlug=" + '/locations/' + closestLocation.slug + "; path=/";
+                document.cookie = "restaurantSlug=" + closestLocation.slug + "; path=/";
                 $('#nav-location-name').text(closestLocation.location);
                 $('#nav-location-link').attr('href', '/locations/' + closestLocation.slug);
-
             });
-        }, "jsonp");
+        }
     };
 
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug")) {
