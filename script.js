@@ -83,9 +83,18 @@ $(document).ready(function () {
             document.cookie = "restaurantLocation=" + location + expires + "; path=/";
             document.cookie = "restaurantSlug=/locations/" + slug + expires + "; path=/";
             
-            // Update the text and href on the page
-            $('#nav-location-name').text(location);
-            $('#nav-location-link').attr('href', '/locations/' + slug);
+            locationSetup();
+        });
+    }
+
+    const locationSetup = function() {
+        const restaurantSlug = getCookie("restaurantSlug");
+        // Set text and href as before
+        $('#nav-location-name').text(getCookie("restaurantLocation"));
+        $('#nav-location-link').attr('href', restaurantSlug);
+        $('<div />').load(`${restaurantSlug} #addresses`, function() {
+            const newNavSelectedLocation = $(this).find('.nav_selected-location');
+            $('.nav .nav-selected-location').replaceWith(newNavSelectedLocation);
         });
     }
 
@@ -93,8 +102,7 @@ $(document).ready(function () {
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug")) {
         setAutoLocation();
     } else {
-        $('#nav-location-name').text(getCookie("restaurantLocation"));
-        $('#nav-location-link').attr('href', getCookie("restaurantSlug"));
+        locationSetup();
     }
 
 });
