@@ -18,7 +18,6 @@ $(document).ready(function () {
                 var userLat = position.coords.latitude;
                 var userLng = position.coords.longitude;
                 processLocation(userLat, userLng);
-                document.cookie = "locationProximity=exact" + expires + "; path=/";;
             }, function (error) {
                 clearTimeout(locationTimeout); // Clear the timeout if there was an error
                 useIpInfo(); // Use ipinfo.io as a fallback
@@ -34,7 +33,6 @@ $(document).ready(function () {
                 var userLng = parseFloat(loc[1]);
                 processLocation(userLat, userLng);
             }, "jsonp");
-            document.cookie = "locationProximity=approx" + expires + "; path=/";;
         }
 
         function processLocation(userLat, userLng) {
