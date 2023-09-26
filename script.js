@@ -64,12 +64,11 @@ $(document).ready(function () {
                 document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/";
                 document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/";
                 $('#nav-location-name').text(closestLocation.location);
-                $('#nav-location-link').attr('href', '/locations/' + closestLocation.slug);
             });
         }
     };
 
-    const setManualLocation = function() {
+    const setManualLocationListener = function() {
         $('.geo-select').on('click', function() {
             var location = $(this).attr('data-location');
             var slug = $(this).attr('data-slug');
@@ -91,15 +90,15 @@ $(document).ready(function () {
         const restaurantSlug = getCookie("restaurantSlug");
         // Set text and href as before
         $('#nav-location-name').text(getCookie("restaurantLocation"));
-        $('#nav-location-link').attr('href', restaurantSlug);
         $('<div />').load(`${restaurantSlug} #nav-location-tile`, function() {
             const newNavSelectedLocation = $(this).find('.nav_selected-location');
             console.log(newNavSelectedLocation);
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
+            $('.nav .nav_location-list').removeClass('visible');
         });
     }
 
-    setManualLocation();
+    setManualLocationListener();
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug")) {
         setAutoLocation();
     } else {
