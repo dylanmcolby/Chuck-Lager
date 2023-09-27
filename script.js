@@ -68,38 +68,40 @@ $(document).ready(function () {
         }
     };
 
-    const setManualLocationListener = function() {
-        $('.geo-select').on('click', function() {
+    const setManualLocationListener = function () {
+        $('.geo-select').on('click', function () {
             var location = $(this).attr('data-location');
             var slug = $(this).attr('data-slug');
-            
+
             // Set the expiration date for the cookies to 7 days in the future
             var date = new Date();
             date.setDate(date.getDate() + 1);
             var expires = ";expires=" + date.toUTCString();
-            
+
             // Set the cookies
             document.cookie = "restaurantLocation=" + location + expires + "; path=/";
             document.cookie = "restaurantSlug=/locations/" + slug + expires + "; path=/";
-            
+
             locationSetup();
         });
     }
 
-    const locationSetup = function() {
+    const locationSetup = function () {
         const restaurantSlug = getCookie("restaurantSlug");
         // Set text and href as before
         $('#nav-location-name').text(getCookie("restaurantLocation"));
-        $('<div />').load(`${restaurantSlug} #nav-location-tile`, function() {
+        $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
             const newNavSelectedLocation = $(this).find('.nav_selected-location');
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
             $('.nav .nav_location-list').removeClass('visible');
         });
-        $('.nav .nav_selected-location').addClass('visible');
-        $('#select-location').on('click', function() {
-            $('.nav .nav_location-list').addClass('visible');
-            $('.nav .nav_selected-location').removeClass('visible');
-        });
+        setTimeout(function () {
+            $('.nav .nav_selected-location').addClass('visible');
+            $('#select-location').on('click', function () {
+                $('.nav .nav_location-list').addClass('visible');
+                $('.nav .nav_selected-location').removeClass('visible');
+            });
+        }, 1);
     }
 
     setManualLocationListener();
