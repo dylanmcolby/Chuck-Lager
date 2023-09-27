@@ -99,6 +99,7 @@ $(document).ready(function () {
                 $(triggerEl).removeClass('load');
                 $('.nav #nav-loc-dropdown').addClass('visible');
                 window.mouseEntered = false;
+                if (getCookie("restaurantSlug") == window.currentLocation) {alert('true');}
             }
         });
     }
