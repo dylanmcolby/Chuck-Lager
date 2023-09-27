@@ -95,10 +95,12 @@ $(document).ready(function () {
             $('.nav .nav_location-list').removeClass('visible');
             $('.nav .nav_selected-location').addClass('visible');
         });
-        $('#select-location').on('click', function() {
-            $('.nav .nav_location-list').addClass('visible');
-            $('.nav .nav_selected-location').removeClass('visible');
-        });
+        setTimeout(function(){
+            $('#select-location').on('click', function() {
+                $('.nav .nav_location-list').addClass('visible');
+                $('.nav .nav_selected-location').removeClass('visible');
+            });
+        }, 5);
     }
 
     setManualLocationListener();
