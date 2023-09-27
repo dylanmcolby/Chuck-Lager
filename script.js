@@ -95,6 +95,10 @@ $(document).ready(function () {
             console.log(newNavSelectedLocation);
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
             $('.nav .nav_location-list').removeClass('visible');
+            $('#select-location').on('click', function() {
+                $('.nav_location-list').removeClass('visible');
+                $('.nav_selected-location').addClass('visible');
+            });
         });
     }
 
