@@ -93,9 +93,6 @@ $(document).ready(function () {
         $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
             const newNavSelectedLocation = $(this).find('.nav_selected-location');
             if (triggerEl) {
-                $(triggerEl).removeClass('load');
-                $('.nav #nav-loc-dropdown').addClass('visible');
-                window.mouseEntered = false;
                 const restaurantSlug = getCookie("restaurantSlug");
                 if (window.currentLocation !== undefined) {
                     if (restaurantSlug != window.currentLocation) {
@@ -103,10 +100,14 @@ $(document).ready(function () {
                             if ($(this).attr('href') == restaurantSlug) {
                                 const siblingGeoChangeTarget = $(this).siblings('.geo-change-target');
                                 window.location.href = siblingGeoChangeTarget.attr('href');
+                                return
                             };
                         });
                     };
                 };
+                $(triggerEl).removeClass('load');
+                $('.nav #nav-loc-dropdown').addClass('visible');
+                window.mouseEntered = false;
             };
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
             $('.nav .nav_location-list').removeClass('visible');
