@@ -90,28 +90,29 @@ $(document).ready(function () {
     const locationSetup = function (triggerEl) {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
         const restaurantSlug = getCookie("restaurantSlug");
+        if (triggerEl) {
+            if (window.currentLocation !== undefined) {
+                if (restaurantSlug != window.currentLocation) {
+                    $('.geo-change-id').each(function () {
+                        if ($(this).attr('href') == restaurantSlug) {
+                            const siblingGeoChangeTarget = $(this).siblings('.geo-change-target');
+                            window.location.href = siblingGeoChangeTarget.attr('href');
+                            return
+                        };
+                    });
+                };
+            };
+        };
         $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
             const newNavSelectedLocation = $(this).find('.nav_selected-location');
+            $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
+            $('.nav .nav_location-list').removeClass('visible');
+            $('.nav .nav_selected-location').addClass('visible');
             if (triggerEl) {
-                const restaurantSlug = getCookie("restaurantSlug");
-                if (window.currentLocation !== undefined) {
-                    if (restaurantSlug != window.currentLocation) {
-                        $('.geo-change-id').each(function () {
-                            if ($(this).attr('href') == restaurantSlug) {
-                                const siblingGeoChangeTarget = $(this).siblings('.geo-change-target');
-                                window.location.href = siblingGeoChangeTarget.attr('href');
-                                return
-                            };
-                        });
-                    };
-                };
                 $(triggerEl).removeClass('load');
                 $('.nav #nav-loc-dropdown').addClass('visible');
                 window.mouseEntered = false;
             };
-            $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
-            $('.nav .nav_location-list').removeClass('visible');
-            $('.nav .nav_selected-location').addClass('visible');
         });
     }
 
