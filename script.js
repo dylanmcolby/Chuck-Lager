@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     const setAutoLocation = function () {
         var date = new Date();
-        date.setDate(date.getDate() + 7);
+        date.setDate(date.getDate() + 1);
         var expires = ";expires=" + date.toUTCString();
         var locationTimeout = setTimeout(useIpInfo, 10000); // Set a timeout to use ipinfo.io after 8 seconds
         // Trying to get the location using the Geolocation API
@@ -75,7 +75,7 @@ $(document).ready(function () {
             
             // Set the expiration date for the cookies to 7 days in the future
             var date = new Date();
-            date.setDate(date.getDate() + 7);
+            date.setDate(date.getDate() + 1);
             var expires = ";expires=" + date.toUTCString();
             
             // Set the cookies
@@ -95,10 +95,10 @@ $(document).ready(function () {
             console.log(newNavSelectedLocation);
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
             $('.nav .nav_location-list').removeClass('visible');
-            $('#select-location').on('click', function() {
-                $('.nav_location-list').removeClass('visible');
-                $('.nav_selected-location').addClass('visible');
-            });
+        });
+        $('#select-location').on('click', function() {
+            $('.nav_location-list').removeClass('visible');
+            $('.nav_selected-location').addClass('visible');
         });
     }
 
