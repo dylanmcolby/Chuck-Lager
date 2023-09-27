@@ -10,7 +10,7 @@ $(document).ready(function () {
         var date = new Date();
         date.setDate(date.getDate() + 7);
         var expires = ";expires=" + date.toUTCString();
-        var locationTimeout = setTimeout(useIpInfo, 8000); // Set a timeout to use ipinfo.io after 8 seconds
+        var locationTimeout = setTimeout(useIpInfo, 10000); // Set a timeout to use ipinfo.io after 8 seconds
         // Trying to get the location using the Geolocation API
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
