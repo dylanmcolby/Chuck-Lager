@@ -92,30 +92,25 @@ $(document).ready(function () {
         const restaurantSlug = getCookie("restaurantSlug");
         $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
             const newNavSelectedLocation = $(this).find('.nav_selected-location');
-            $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
-            $('.nav .nav_location-list').removeClass('visible');
-            $('.nav .nav_selected-location').addClass('visible');
             if (triggerEl) {
                 $(triggerEl).removeClass('load');
                 $('.nav #nav-loc-dropdown').addClass('visible');
                 window.mouseEntered = false;
                 const restaurantSlug = getCookie("restaurantSlug");
-                console.log(restaurantSlug);
                 if (window.currentLocation !== undefined) {
-                    console.log(window.currentLocation);
                     if (restaurantSlug != window.currentLocation) {
-                        console.log('they are not equal! changing');
                         $('.geo-change-id').each(function () {
-                            console.log('found geo-change-idL ' + $(this).attr('href'));
                             if ($(this).attr('href') == restaurantSlug) {
                                 const siblingGeoChangeTarget = $(this).siblings('.geo-change-target');
-                                console.log('going to: ' + siblingGeoChangeTarget.attr('href'));
                                 window.location.href = siblingGeoChangeTarget.attr('href');
                             };
                         });
                     };
                 };
             };
+            $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
+            $('.nav .nav_location-list').removeClass('visible');
+            $('.nav .nav_selected-location').addClass('visible');
         });
     }
 
