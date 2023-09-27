@@ -98,6 +98,7 @@ $(document).ready(function () {
             if (triggerEl) {
                 $(triggerEl).removeClass('load');
                 $('.nav #nav-loc-dropdown').addClass('visible');
+                window.mouseEntered = false;
             }
         });
     }
