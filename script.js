@@ -111,7 +111,7 @@ $(document).ready(function () {
                 const geoReserveHref = $(this).find('[data-geo-reserve]').attr('href');
                 if (geoReserveHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-reserve]').attr('href', geoReserveHref);}
                 const geoOrderHref = $(this).find('[data-geo-order]').attr('href');
-                if (geoOrderHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-order]').attr('href', geoOrderHref);{}
+                if (geoOrderHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-order]').attr('href', geoOrderHref);}
                 const newNavSelectedLocation = $(this).find('.nav_selected-location');
                 $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
                 $('.nav .nav_location-list').removeClass('visible');
