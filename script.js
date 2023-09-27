@@ -95,10 +95,6 @@ $(document).ready(function () {
             $('.nav .nav_location-list').removeClass('visible');
             $('.nav .nav_selected-location').addClass('visible');
         });
-        $('#select-location').on('click', function() {
-            $('.nav .nav_location-list').addClass('visible');
-            $('.nav .nav_selected-location').removeClass('visible');
-        });
     }
 
     setManualLocationListener();
@@ -107,5 +103,9 @@ $(document).ready(function () {
     } else {
         locationSetup();
     }
+    $(document).on('click', '#select-location', function() {
+        $('.nav .nav_location-list').addClass('visible');
+        $('.nav .nav_selected-location').removeClass('visible');
+    });
 
 });
