@@ -87,7 +87,7 @@ $(document).ready(function () {
         });
     }
 
-    const locationSetup = function(e) {
+    const locationSetup = function(triggerEl) {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
         const restaurantSlug = getCookie("restaurantSlug");
         $('<div />').load(`${restaurantSlug} #nav-location-tile`, function() {
@@ -95,9 +95,9 @@ $(document).ready(function () {
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
             $('.nav .nav_location-list').removeClass('visible');
             $('.nav .nav_selected-location').addClass('visible');
-            $('.nav #nav-loc-dropdown').addClass('visible');
-            if (e) {
-                $(e).removeClass('load');
+            if (triggerEl) {
+                $(triggerEl).removeClass('load');
+                $('.nav #nav-loc-dropdown').addClass('visible');
             }
         });
     }
