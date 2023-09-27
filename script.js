@@ -70,6 +70,7 @@ $(document).ready(function () {
 
     const setManualLocationListener = function() {
         $('.geo-select').on('click', function() {
+            $(this).addClass('load');
             var location = $(this).attr('data-location');
             var slug = $(this).attr('data-slug');
             
@@ -82,11 +83,11 @@ $(document).ready(function () {
             document.cookie = "restaurantLocation=" + location + expires + "; path=/";
             document.cookie = "restaurantSlug=/locations/" + slug + expires + "; path=/";
             
-            locationSetup();
+            locationSetup(this);
         });
     }
 
-    const locationSetup = function() {
+    const locationSetup = function(e) {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
         const restaurantSlug = getCookie("restaurantSlug");
         $('<div />').load(`${restaurantSlug} #nav-location-tile`, function() {
@@ -94,6 +95,9 @@ $(document).ready(function () {
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
             $('.nav .nav_location-list').removeClass('visible');
             $('.nav .nav_selected-location').addClass('visible');
+            if (e) {
+                $(e).removeClass('load');
+            }
         });
     }
 
