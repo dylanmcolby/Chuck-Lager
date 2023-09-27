@@ -92,13 +92,12 @@ $(document).ready(function () {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
         $('<div />').load(`${restaurantSlug} #nav-location-tile`, function() {
             const newNavSelectedLocation = $(this).find('.nav_selected-location');
-            console.log(newNavSelectedLocation);
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
             $('.nav .nav_location-list').removeClass('visible');
         });
         $('#select-location').on('click', function() {
-            $('.nav_location-list').removeClass('visible');
-            $('.nav_selected-location').addClass('visible');
+            $('.nav_location-list').addClass('visible');
+            $('.nav_selected-location').removeClass('visible');
         });
     }
 
