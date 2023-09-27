@@ -94,10 +94,11 @@ $(document).ready(function () {
             const newNavSelectedLocation = $(this).find('.nav_selected-location');
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
             $('.nav .nav_location-list').removeClass('visible');
+            $('.nav .nav_selected-location').addClass('visible');
         });
         $('#select-location').on('click', function() {
-            $('.nav_location-list').addClass('visible');
-            $('.nav_selected-location').removeClass('visible');
+            $('.nav .nav_location-list').addClass('visible');
+            $('.nav .nav_selected-location').removeClass('visible');
         });
     }
 
