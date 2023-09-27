@@ -95,6 +95,7 @@ $(document).ready(function () {
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
             $('.nav .nav_location-list').removeClass('visible');
             $('.nav .nav_selected-location').addClass('visible');
+            $('.nav #nav-loc-dropdown').addClass('visible');
             if (e) {
                 $(e).removeClass('load');
             }
