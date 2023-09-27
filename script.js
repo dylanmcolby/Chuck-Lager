@@ -68,29 +68,29 @@ $(document).ready(function () {
         }
     };
 
-    const setManualLocationListener = function() {
-        $('.geo-select').on('click', function() {
+    const setManualLocationListener = function () {
+        $('.geo-select').on('click', function () {
             $(this).addClass('load');
             var location = $(this).attr('data-location');
             var slug = $(this).attr('data-slug');
-            
+
             // Set the expiration date for the cookies to 7 days in the future
             var date = new Date();
             date.setDate(date.getDate() + 1);
             var expires = ";expires=" + date.toUTCString();
-            
+
             // Set the cookies
             document.cookie = "restaurantLocation=" + location + expires + "; path=/";
             document.cookie = "restaurantSlug=/locations/" + slug + expires + "; path=/";
-            
+
             locationSetup(this);
         });
     }
 
-    const locationSetup = function(triggerEl) {
+    const locationSetup = function (triggerEl) {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
         const restaurantSlug = getCookie("restaurantSlug");
-        $('<div />').load(`${restaurantSlug} #nav-location-tile`, function() {
+        $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
             const newNavSelectedLocation = $(this).find('.nav_selected-location');
             $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
             $('.nav .nav_location-list').removeClass('visible');
@@ -102,12 +102,13 @@ $(document).ready(function () {
                 const restaurantSlug = getCookie("restaurantSlug");
                 if (window.currentLocation !== undefined) {
                     if (restaurantSlug != window.currentLocation) {
-                        $('.geo-change-id').each(function() {
+                        $('.geo-change-id').each(function () {
                             if ($(this).attr('href') === restaurantSlug) {
                                 const siblingGeoChangeTarget = $(this).siblings('.geo-change-target');
                                 window.location.href = siblingGeoChangeTarget.attr('href');
                             };
                         });
+                    };
                 };
             };
         });
@@ -119,7 +120,7 @@ $(document).ready(function () {
     } else {
         locationSetup();
     }
-    $(document).on('click', '#select-location', function() {
+    $(document).on('click', '#select-location', function () {
         $('.nav .nav_location-list').addClass('visible');
         $('.nav .nav_selected-location').removeClass('visible');
     });
