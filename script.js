@@ -107,7 +107,7 @@ $(document).ready(function () {
                         console.log('they are not equal! changing');
                         $('.geo-change-id').each(function () {
                             console.log('found geo-change-idL ' + $(this).attr('href'));
-                            if ($(this).attr('href') === restaurantSlug) {
+                            if ($(this).attr('href') == restaurantSlug) {
                                 const siblingGeoChangeTarget = $(this).siblings('.geo-change-target');
                                 console.log('going to: ' + siblingGeoChangeTarget.attr('href'));
                                 window.location.href = siblingGeoChangeTarget.attr('href');
