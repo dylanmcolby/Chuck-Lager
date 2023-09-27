@@ -107,11 +107,11 @@ $(document).ready(function () {
         if (shouldExit == false) {
             $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
                 const geoMenuHref = $(this).find('[data-geo-menu]').attr('href');
-                if (geoMenuHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-menu]').attr('href', geoMenuHref); }
+                if (geoMenuHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-menu]').attr('href', geoMenuHref); } else {$('.nav [data-geo-menu]').attr('href', '/locations');}
                 const geoReserveHref = $(this).find('[data-geo-reserve]').attr('href');
-                if (geoReserveHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-reserve]').attr('href', geoReserveHref);}
+                if (geoReserveHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-reserve]').attr('href', geoReserveHref);} else {$('.nav [data-geo-reserve]').attr('href', '/locations');}
                 const geoOrderHref = $(this).find('[data-geo-order]').attr('href');
-                if (geoOrderHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-order]').attr('href', geoOrderHref);}
+                if (geoOrderHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-order]').attr('href', geoOrderHref);} else {$('.nav [data-geo-order]').attr('href', '/locations');}
                 const newNavSelectedLocation = $(this).find('.nav_selected-location');
                 $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
                 $('.nav .nav_location-list').removeClass('visible');
