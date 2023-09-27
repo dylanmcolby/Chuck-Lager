@@ -104,7 +104,7 @@ $(document).ready(function () {
     }
 
     setManualLocationListener();
-    if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug")) {
+    if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug") || getCookie("restaurantSlug") == 'undefined' || getCookie("restaurantLocation") == 'undefined') {
         setAutoLocation();
     } else {
         locationSetup();
