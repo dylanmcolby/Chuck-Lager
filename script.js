@@ -99,12 +99,17 @@ $(document).ready(function () {
                 $(triggerEl).removeClass('load');
                 $('.nav #nav-loc-dropdown').addClass('visible');
                 window.mouseEntered = false;
-                console.log(window.currentLocation);
-                console.log(getCookie("restaurantSlug"));
+                const restaurantSlug = getCookie("restaurantSlug");
                 if (window.currentLocation !== undefined) {
-                    if (getCookie("restaurantSlug") == window.currentLocation) {alert('true');}
-                }
-            }
+                    if (restaurantSlug != window.currentLocation) {
+                        $('.geo-change-id').each(function() {
+                            if ($(this).attr('href') === restaurantSlug) {
+                                const siblingGeoChangeTarget = $(this).siblings('.geo-change-target');
+                                window.location.href = siblingGeoChangeTarget.attr('href');
+                            };
+                        });
+                };
+            };
         });
     }
 
