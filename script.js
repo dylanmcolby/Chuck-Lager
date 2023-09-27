@@ -106,6 +106,12 @@ $(document).ready(function () {
         };
         if (shouldExit == false) {
             $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
+                const geoMenuHref = $(this).find('[data-geo-menu]').attr('href');
+                const geoReserveHref = $(this).find('[data-geo-reserve]').attr('href');
+                const geoOrderHref = $(this).find('[data-geo-order]').attr('href');
+                $('.nav [data-geo-menu]').attr('href', geoMenuHref);
+                $('.nav [data-geo-reserve]').attr('href', geoReserveHref);
+                $('.nav [data-geo-order]').attr('href', geoOrderHref);
                 const newNavSelectedLocation = $(this).find('.nav_selected-location');
                 $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
                 $('.nav .nav_location-list').removeClass('visible');
