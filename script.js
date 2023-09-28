@@ -12,7 +12,6 @@ $(document).ready(function () {
         var expires = ";expires=" + date.toUTCString();
         var locationTimeout = setTimeout(useIpInfo, 10000); // Set a timeout to use ipinfo.io after 8 seconds
         // Trying to get the location using the Geolocation API
-        alert(exactOnly);
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 clearTimeout(locationTimeout); // Clear the timeout if the location is obtained successfully
@@ -135,7 +134,6 @@ $(document).ready(function () {
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug") || getCookie("restaurantSlug") == 'undefined' || getCookie("restaurantLocation") == 'undefined') {
         setAutoLocation();
     } else if (getCookie("locationProximity") == 'approx') {
-        alert('is approx');
         var exactOnly = true;
         setAutoLocation(exactOnly);
         
