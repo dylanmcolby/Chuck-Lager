@@ -21,10 +21,10 @@ $(document).ready(function () {
                 document.cookie = "locationProximity=exact";
             }, function (error) {
                 clearTimeout(locationTimeout); // Clear the timeout if there was an error
-                useIpInfo(); // Use ipinfo.io as a fallback
+                if (!exactOnly) {useIpInfo();} // Use ipinfo.io as a fallback
             });
         } else {
-            useIpInfo(); // Use ipinfo.io if Geolocation API is not available
+            if (!exactOnly) {useIpInfo();} // Use ipinfo.io if Geolocation API is not available
         }
     }
 
