@@ -1,5 +1,61 @@
 $(document).ready(function () {
 
+    //
+    //NAV SETUP
+    //
+
+    $('#navmore-hover').on('mouseenter', function (e) {
+        $('#nav-dropdown').addClass('visible');
+    });
+
+    $('#navmore-hover').on('mouseleave', function (e) {
+        $('#nav-dropdown').removeClass('visible');
+    });
+    // Handle click events
+    $('#navmore-hover').on('tap', function (e) {
+        e.preventDefault();
+        $('#nav-dropdown').toggleClass('visible');
+    });
+
+    window.mouseEntered = false;
+
+    $('#nav-locations').on('mouseenter', function (e) {
+        mouseEntered = true;
+        $('#nav-loc-dropdown').addClass('visible');
+    });
+    $('#nav-locations').on('mouseleave', function (e) {
+        if (mouseEntered) {
+            $('#nav-loc-dropdown').removeClass('visible');
+            mouseEntered = false;
+        }
+    });
+
+    $('#nav-location-link').on('tap', function (e) {
+        e.stopPropagation();
+        setTimeout(function () { $('#nav-loc-dropdown').toggleClass('visible') }, 1);
+    });
+
+    const $locDropdown = $('#nav-loc-dropdown');
+    $(document).on('click', function (event) {
+        if (!$(event.target).closest($locDropdown).length) {
+            $locDropdown.removeClass('visible');
+        }
+    });
+
+    // Handle scroll events
+    $(window).on('scroll', function () {
+        const navDropdown = $('#nav-dropdown');
+        const navLocations = $('#nav-loc-dropdown');
+        navDropdown.removeClass('visible');
+        navLocations.removeClass('visible');
+
+    });
+
+
+    //
+    //LOCATION SETUP
+    //
+
     function getCookie(name) {
         var value = "; " + document.cookie;
         var parts = value.split("; " + name + "=");
@@ -18,10 +74,10 @@ $(document).ready(function () {
                 processLocation(userLat, userLng);
             }, function (error) {
                 clearTimeout(locationTimeout); // Clear the timeout if there was an error
-                if (!exactOnly) {useIpInfo();} // Use ipinfo.io as a fallback
+                if (!exactOnly) { useIpInfo(); } // Use ipinfo.io as a fallback
             });
         } else {
-            if (!exactOnly) {useIpInfo();} // Use ipinfo.io if Geolocation API is not available
+            if (!exactOnly) { useIpInfo(); } // Use ipinfo.io if Geolocation API is not available
         }
     }
     //FALLBACK
@@ -136,7 +192,7 @@ $(document).ready(function () {
     } else if (getCookie("locationProximity") == 'approx') {
         var exactOnly = true;
         setAutoLocation(exactOnly);
-        
+
     } else {
         locationSetup();
     }
