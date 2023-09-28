@@ -135,7 +135,9 @@ $(document).ready(function () {
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug") || getCookie("restaurantSlug") == 'undefined' || getCookie("restaurantLocation") == 'undefined') {
         setAutoLocation();
     } else if (getCookie("locationProximity") == 'approx') {
+        alert('is approx');
         setAutoLocation(exactOnly);
+        
     } else {
         locationSetup();
     }
