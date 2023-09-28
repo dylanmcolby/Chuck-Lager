@@ -6,7 +6,7 @@ $(document).ready(function () {
         if (parts.length === 2) return parts.pop().split(";").shift();
     }
 
-    const setAutoLocation = function () {
+    const setAutoLocation = function (exactOnly) {
         var date = new Date();
         date.setDate(date.getDate() + 1);
         var expires = ";expires=" + date.toUTCString();
@@ -136,6 +136,7 @@ $(document).ready(function () {
         setAutoLocation();
     } else if (getCookie("locationProximity") == 'approx') {
         alert('is approx');
+        var exactOnly = true;
         setAutoLocation(exactOnly);
         
     } else {
