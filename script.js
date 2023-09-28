@@ -9,7 +9,7 @@ $(document).ready(function () {
     const setAutoLocation = function (exactOnly) {
         var date = new Date();
         date.setDate(date.getDate() + 1);
-        var locationTimeout = setTimeout(useIpInfo, 2500); // Set a timeout to use ipinfo.io after 2.5 seconds
+        var locationTimeout = setTimeout(useIpInfo, 1000); // Set a timeout to use ipinfo.io after 2.5 seconds
         // Trying to get the location using the Geolocation API
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
