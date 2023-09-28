@@ -12,10 +12,10 @@ $(document).ready(function () {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 clearTimeout(locationTimeout); // Clear the timeout if the location is obtained successfully
+                document.cookie = "locationProximity=exact";
                 var userLat = position.coords.latitude;
                 var userLng = position.coords.longitude;
                 processLocation(userLat, userLng);
-                document.cookie = "locationProximity=exact";
             }, function (error) {
                 clearTimeout(locationTimeout); // Clear the timeout if there was an error
                 if (!exactOnly) {useIpInfo();} // Use ipinfo.io as a fallback
@@ -107,7 +107,7 @@ $(document).ready(function () {
                 };
             };
         };
-        //continue if window does not need to be changed
+        //continue to update all links and states if window does not need to be changed
         if (shouldExit == false) {
             $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
                 //set navigation buttons to be location-specific
