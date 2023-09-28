@@ -32,7 +32,7 @@ $(document).ready(function () {
 
     $('#nav-location-link').on('tap', function (e) {
         e.stopPropagation();
-        setTimeout(function () { $('#nav-loc-dropdown').toggleClass('visible') }, 1);
+        setTimeout(function () { $('#nav-loc-dropdown').addClass('visible') }, 1);
     });
 
     const $locDropdown = $('#nav-loc-dropdown');
