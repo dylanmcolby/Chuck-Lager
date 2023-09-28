@@ -26,49 +26,49 @@ $(document).ready(function () {
         } else {
             useIpInfo(); // Use ipinfo.io if Geolocation API is not available
         }
+    }
 
-        function useIpInfo() {
-            $.get("https://ipinfo.io", function (response) {
-                var loc = response.loc.split(','); // response.loc will be in "latitude,longitude" format
-                var userLat = parseFloat(loc[0]);
-                var userLng = parseFloat(loc[1]);
-                processLocation(userLat, userLng);
-                document.cookie = "locationProximity=approx";
-            }, "jsonp");
-        }
-        //FIND CLOSEST LOCATION AND SET LOCATION COOKIE
-        function processLocation(userLat, userLng) {
-            var tempDiv = $("<div>");
-            tempDiv.load("/locations #addresses", function () {
-                var locations = [];
-                tempDiv.find('.geo-location').each(function () {
-                    var location = {
-                        lat: parseFloat($(this).find('.geo-lat').text()),
-                        lng: parseFloat($(this).find('.geo-long').text()),
-                        address: $(this).find('.geo-address').text(),
-                        slug: $(this).find('.geo-slug').text(),
-                        location: $(this).find('.geo-location').text()
-                    };
-                    locations.push(location);
-                });
-
-                var closestLocation = null;
-                var shortestDistance = Number.MAX_VALUE;
-
-                locations.forEach(function (location) {
-                    var distance = Math.sqrt(Math.pow(location.lat - userLat, 2) + Math.pow(location.lng - userLng, 2));
-                    if (distance < shortestDistance) {
-                        shortestDistance = distance;
-                        closestLocation = location;
-                    }
-                });
-                document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/";
-                document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/";
-
-                locationSetup();
+    const useIpInfo = function () {
+        $.get("https://ipinfo.io", function (response) {
+            var loc = response.loc.split(','); // response.loc will be in "latitude,longitude" format
+            var userLat = parseFloat(loc[0]);
+            var userLng = parseFloat(loc[1]);
+            processLocation(userLat, userLng);
+            document.cookie = "locationProximity=approx";
+        }, "jsonp");
+    }
+    //FIND CLOSEST LOCATION AND SET LOCATION COOKIE
+    const processLocation = function (userLat, userLng) {
+        var tempDiv = $("<div>");
+        tempDiv.load("/locations #addresses", function () {
+            var locations = [];
+            tempDiv.find('.geo-location').each(function () {
+                var location = {
+                    lat: parseFloat($(this).find('.geo-lat').text()),
+                    lng: parseFloat($(this).find('.geo-long').text()),
+                    address: $(this).find('.geo-address').text(),
+                    slug: $(this).find('.geo-slug').text(),
+                    location: $(this).find('.geo-location').text()
+                };
+                locations.push(location);
             });
-        }
-    };
+
+            var closestLocation = null;
+            var shortestDistance = Number.MAX_VALUE;
+
+            locations.forEach(function (location) {
+                var distance = Math.sqrt(Math.pow(location.lat - userLat, 2) + Math.pow(location.lng - userLng, 2));
+                if (distance < shortestDistance) {
+                    shortestDistance = distance;
+                    closestLocation = location;
+                }
+            });
+            document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/";
+            document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/";
+
+            locationSetup();
+        });
+    }
 
     const setManualLocationListener = function () {
         $('.geo-select').on('click', function () {
@@ -112,11 +112,11 @@ $(document).ready(function () {
             $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
                 //set navigation buttons to be location-specific
                 const geoMenuHref = $(this).find('[data-geo-menu]').attr('href');
-                if (geoMenuHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-menu]').attr('href', geoMenuHref); } else {$('.nav [data-geo-menu]').attr('href', '/locations');}
+                if (geoMenuHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-menu]').attr('href', geoMenuHref); } else { $('.nav [data-geo-menu]').attr('href', '/locations'); }
                 const geoReserveHref = $(this).find('[data-geo-reserve]').attr('href');
-                if (geoReserveHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-reserve]').attr('href', geoReserveHref);} else {$('.nav [data-geo-reserve]').attr('href', '/locations');}
+                if (geoReserveHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-reserve]').attr('href', geoReserveHref); } else { $('.nav [data-geo-reserve]').attr('href', '/locations'); }
                 const geoOrderHref = $(this).find('[data-geo-order]').attr('href');
-                if (geoOrderHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-order]').attr('href', geoOrderHref);} else {$('.nav [data-geo-order]').attr('href', '/locations');}
+                if (geoOrderHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-order]').attr('href', geoOrderHref); } else { $('.nav [data-geo-order]').attr('href', '/locations'); }
                 const newNavSelectedLocation = $(this).find('.nav_selected-location');
                 $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
                 $('.nav .nav_location-list').removeClass('visible');
@@ -133,6 +133,8 @@ $(document).ready(function () {
     setManualLocationListener();
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug") || getCookie("restaurantSlug") == 'undefined' || getCookie("restaurantLocation") == 'undefined') {
         setAutoLocation();
+    } else if (getCookie("locationProximity") == 'approx') {
+        setAutoLocation(exactOnly);
     } else {
         locationSetup();
     }
