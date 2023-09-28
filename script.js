@@ -18,6 +18,7 @@ $(document).ready(function () {
                 var userLat = position.coords.latitude;
                 var userLng = position.coords.longitude;
                 processLocation(userLat, userLng);
+                document.cookie = "locationProximity=exact";
             }, function (error) {
                 clearTimeout(locationTimeout); // Clear the timeout if there was an error
                 useIpInfo(); // Use ipinfo.io as a fallback
@@ -32,9 +33,10 @@ $(document).ready(function () {
                 var userLat = parseFloat(loc[0]);
                 var userLng = parseFloat(loc[1]);
                 processLocation(userLat, userLng);
+                document.cookie = "locationProximity=approx";
             }, "jsonp");
         }
-
+        //FIND CLOSEST LOCATION AND SET LOCATION COOKIE
         function processLocation(userLat, userLng) {
             var tempDiv = $("<div>");
             tempDiv.load("/locations #addresses", function () {
@@ -60,10 +62,10 @@ $(document).ready(function () {
                         closestLocation = location;
                     }
                 });
-
                 document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/";
                 document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/";
-                $('#nav-location-name').text(closestLocation.location);
+
+                locationSetup();
             });
         }
     };
@@ -82,7 +84,7 @@ $(document).ready(function () {
             // Set the cookies
             document.cookie = "restaurantLocation=" + location + expires + "; path=/";
             document.cookie = "restaurantSlug=/locations/" + slug + expires + "; path=/";
-
+            document.cookie = "locationProximity=manual";
             locationSetup(this);
         });
     }
@@ -91,6 +93,7 @@ $(document).ready(function () {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
         const restaurantSlug = getCookie("restaurantSlug");
         let shouldExit = false;
+        //if user manually set location, then we can change current window if it is location-oriented
         if (triggerEl) {
             if (window.currentLocation !== undefined) {
                 if (restaurantSlug != window.currentLocation) {
@@ -104,8 +107,10 @@ $(document).ready(function () {
                 };
             };
         };
+        //continue if window does not need to be changed
         if (shouldExit == false) {
             $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
+                //set navigation buttons to be location-specific
                 const geoMenuHref = $(this).find('[data-geo-menu]').attr('href');
                 if (geoMenuHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-menu]').attr('href', geoMenuHref); } else {$('.nav [data-geo-menu]').attr('href', '/locations');}
                 const geoReserveHref = $(this).find('[data-geo-reserve]').attr('href');
@@ -124,7 +129,7 @@ $(document).ready(function () {
             });
         }
     }
-
+    //INITIALIZE PAGE WITH LOCATION SETUP
     setManualLocationListener();
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug") || getCookie("restaurantSlug") == 'undefined' || getCookie("restaurantLocation") == 'undefined') {
         setAutoLocation();
