@@ -9,8 +9,7 @@ $(document).ready(function () {
     const setAutoLocation = function (exactOnly) {
         var date = new Date();
         date.setDate(date.getDate() + 1);
-        var expires = ";expires=" + date.toUTCString();
-        var locationTimeout = setTimeout(useIpInfo, 10000); // Set a timeout to use ipinfo.io after 8 seconds
+        var locationTimeout = setTimeout(useIpInfo, 2500); // Set a timeout to use ipinfo.io after 2.5 seconds
         // Trying to get the location using the Geolocation API
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -27,7 +26,7 @@ $(document).ready(function () {
             if (!exactOnly) {useIpInfo();} // Use ipinfo.io if Geolocation API is not available
         }
     }
-
+    //FALLBACK
     const useIpInfo = function () {
         $.get("https://ipinfo.io", function (response) {
             var loc = response.loc.split(','); // response.loc will be in "latitude,longitude" format
@@ -63,6 +62,7 @@ $(document).ready(function () {
                     closestLocation = location;
                 }
             });
+            var expires = ";expires=" + date.toUTCString();
             document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/";
             document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/";
 
