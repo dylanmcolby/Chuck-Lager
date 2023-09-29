@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
     //
     //NAV SETUP
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Set the cookies
             document.cookie = "restaurantLocation=" + location + expires + "; path=/" + secureFlag + sameSiteFlag;
             document.cookie = "restaurantSlug=/locations/" + slug + expires + "; path=/" + secureFlag + sameSiteFlag;
-            document.cookie = "locationProximity=manual"+ expires + "; path=/" + secureFlag + sameSiteFlag;
+            document.cookie = "locationProximity=manual" + expires + "; path=/" + secureFlag + sameSiteFlag;
             locationSetup(this);
         });
     }
@@ -227,36 +227,69 @@ document.addEventListener('DOMContentLoaded', function() {
         $(this).html($(this).html().replace(/\[regional\]/g, regionalHTML));
         $(this).html($(this).html().replace(/\[Regional\]/g, regionalHTML));
     });
-    let checkExist = setInterval(function() {
+    let checkExist = setInterval(function () {
         if (typeof fsAttributes !== 'undefined') {
-           clearInterval(checkExist); // stop the interval
-           if (fsAttributes && fsAttributes.cmsnest && fsAttributes.cmsnest.loading) {
-             fsAttributes.cmsnest.loading.then(function(result) {
-               $('.menu_categories').each(function (index) {
-                   const itemsCount = $(this).children().length;
-           
-                   if (itemsCount < 4) {
-                       $(this).addClass('two-column');
-                   } else {
-                       $(this).removeClass('two-column');
-                   }
-               });
-             }).catch(function(error) {
-               console.log('Promise rejected with error:', error);
-             });
-           } else {
-             console.log('fsAttributes or its properties do not exist.');
-           }
+            clearInterval(checkExist); // stop the interval
+            if (fsAttributes && fsAttributes.cmsnest && fsAttributes.cmsnest.loading) {
+                fsAttributes.cmsnest.loading.then(function (result) {
+                    $('.menu_categories').each(function (index) {
+                        const itemsCount = $(this).children().length;
+
+                        if (itemsCount < 4) {
+                            $(this).addClass('two-column');
+                        } else {
+                            $(this).removeClass('two-column');
+                        }
+                    });
+                }).catch(function (error) {
+                    console.log('Promise rejected with error:', error);
+                });
+            } else {
+                console.log('fsAttributes or its properties do not exist.');
+            }
         }
-     }, 100); // check every 100ms
-     
-     // Stop checking after 10 seconds
-     setTimeout(function() {
-       clearInterval(checkExist);
-     }, 10000);
-     
-    
+    }, 100); // check every 100ms
+
+    // Stop checking after 10 seconds
+    setTimeout(function () {
+        clearInterval(checkExist);
+    }, 10000);
 
 
+    //
+    //load google maps
+    //
+    // Function to load Google Maps
+    function loadGoogleMaps() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap';
+        document.body.appendChild(script);
+    }
+
+    // Function to handle the Intersection Observer
+    function handleIntersection(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                loadGoogleMaps();
+                observer.unobserve(entry.target); // Unobserve after loading Google Maps
+            }
+        });
+    }
+
+    // Setup Intersection Observer
+    const options = {
+        root: null, // use the viewport as the root
+        rootMargin: '50vh 0px', // set margins such that we preload '50vh' pixels before actually hitting the target
+        threshold: 0 // trigger as soon as a single pixel is visible
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, options);
+
+    // Observe elements with class .gmap-loader
+    const gmapLoaders = document.querySelectorAll('.gmap-loader');
+    gmapLoaders.forEach(loader => {
+        observer.observe(loader);
+    });
 
 });
