@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             var distance = haversineDistance(userLat, userLng, lat, lon);
                             $this.text(distance.toFixed(1) + ' miles away');
                             // Storing the distance and element reference in the array
-                            locationArray.push({distance: distance, element: $this.parent('.nav_select-location')});
+                            locationArray.push({distance: distance, element: $this.closest('.nav_select-location')});
                         }
                     });
                   
