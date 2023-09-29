@@ -209,14 +209,17 @@ $(document).ready(function () {
         // Replace [glutenfree] with its corresponding image
         var glutenFreeHTML = '<img style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/65148360a9e331145818522c_glutenfree.svg">';
         $(this).html($(this).html().replace(/\[glutenfree\]/g, glutenFreeHTML));
+        $(this).html($(this).html().replace(/\[GlutenFree\]/g, glutenFreeHTML));
     
         // Replace [spicy] with its corresponding image
         var spicyHTML = '<img style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651483615ff4e3a188eb7155_hot.svg">';
         $(this).html($(this).html().replace(/\[spicy\]/g, spicyHTML));
+        $(this).html($(this).html().replace(/\[Spicy\]/g, spicyHTML));
     
         // Replace [regional] with its corresponding image
         var regionalHTML = '<img style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651484938f6dafebbddc75f9_local.svg">';
         $(this).html($(this).html().replace(/\[regional\]/g, regionalHTML));
+        $(this).html($(this).html().replace(/\[Regional\]/g, regionalHTML));
       });
 
 
