@@ -3,6 +3,48 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     //NAV SETUP
     //
+    function calcNavWidth() {
+        // 1. Calculate availableWidth
+        var availableWidth = $('#nav-links-main').outerWidth() - $('#navmore-hover').outerWidth() - 32;
+
+
+        // 2. Calculate linksWidth
+        var linksWidth = 0;
+        $('#nav-links-main > .nav_link').each(function () {
+            linksWidth += $(this).outerWidth();
+        });
+        // 3. Calculate extraLinkWidth
+        var extraLink = $('#nav-dropdown > .nav_link:first');
+
+        if (linksWidth + 96 > availableWidth && linksWidth < availableWidth) {
+            return
+        }
+        // 4. Move extraLink to #nav-links-main if condition is met
+        else if (linksWidth + 96 <= availableWidth) {
+            extraLink.insertBefore('#navmore-hover');
+            calcNavWidth(); // repeat function
+        }
+        // 5. Move last .nav_link inside #nav-links-main to #nav-dropdown if condition is met
+        else if (linksWidth > availableWidth) {
+            var lastNavLink = $('#nav-links-main > .nav_link:last');
+            lastNavLink.prependTo('#nav-dropdown');
+            calcNavWidth(); // repeat function
+        }
+
+        if ($('.nav_dropdown .nav_link').length > 0) {
+            $('.nav_hidden').css('display', 'block');
+        } else {
+            $('.nav_hidden').css('display', 'none');
+        }
+    }
+
+    let resizeTimer;
+    $(window).on('resize load', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            calcNavWidth();
+        }, 100);
+    });
 
     $('#navmore-hover').on('mouseenter', function (e) {
         $('#nav-dropdown').addClass('visible');
