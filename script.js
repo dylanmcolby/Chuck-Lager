@@ -62,13 +62,18 @@ $(document).ready(function () {
         if (parts.length === 2) return parts.pop().split(";").shift();
     }
 
+    var secureFlag = "; Secure"; // Only send cookie over HTTPS
+    var httpOnlyFlag = "; HttpOnly"; // Accessible only through the HTTP protocol
+    var sameSiteFlag = "; SameSite=Strict"; // Cookie will only be sent in a first-party context
+
+
     const setAutoLocation = function (exactOnly) {
         var locationTimeout = setTimeout(useIpInfo, 1000); // Set a timeout to use ipinfo.io after 1 seconds
         // Trying to get the location using the Geolocation API
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 clearTimeout(locationTimeout); // Clear the timeout if the location is obtained successfully
-                document.cookie = "locationProximity=exact";
+                document.cookie = "locationProximity=exact" + expires + "; path=/" + secureFlag + httpOnlyFlag + sameSiteFlag;
                 var userLat = position.coords.latitude;
                 var userLng = position.coords.longitude;
                 processLocation(userLat, userLng);
@@ -87,7 +92,7 @@ $(document).ready(function () {
             var userLat = parseFloat(loc[0]);
             var userLng = parseFloat(loc[1]);
             processLocation(userLat, userLng);
-            document.cookie = "locationProximity=approx";
+            document.cookie = "locationProximity=approx" + expires + "; path=/" + secureFlag + httpOnlyFlag + sameSiteFlag;
         }, "jsonp");
     }
     //FIND CLOSEST LOCATION AND SET LOCATION COOKIE
@@ -119,8 +124,8 @@ $(document).ready(function () {
             var date = new Date();
             date.setDate(date.getDate() + 1);
             var expires = ";expires=" + date.toUTCString();
-            document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/";
-            document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/";
+            document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/" + secureFlag + httpOnlyFlag + sameSiteFlag;
+            document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/" + secureFlag + httpOnlyFlag + sameSiteFlag;
 
             locationSetup();
         });
@@ -138,9 +143,9 @@ $(document).ready(function () {
             var expires = ";expires=" + date.toUTCString();
 
             // Set the cookies
-            document.cookie = "restaurantLocation=" + location + expires + "; path=/";
-            document.cookie = "restaurantSlug=/locations/" + slug + expires + "; path=/";
-            document.cookie = "locationProximity=manual";
+            document.cookie = "restaurantLocation=" + location + expires + "; path=/" + secureFlag + httpOnlyFlag + sameSiteFlag;
+            document.cookie = "restaurantSlug=/locations/" + slug + expires + "; path=/" + secureFlag + httpOnlyFlag + sameSiteFlag;
+            document.cookie = "locationProximity=manual"+ expires + "; path=/" + secureFlag + httpOnlyFlag + sameSiteFlag;
             locationSetup(this);
         });
     }
@@ -228,7 +233,6 @@ $(document).ready(function () {
              fsAttributes.cmsnest.loading.then(function(result) {
                $('.menu_categories').each(function (index) {
                    const itemsCount = $(this).children().length;
-                   console.log(itemsCount);
            
                    if (itemsCount < 4) {
                        $(this).addClass('two-column');
