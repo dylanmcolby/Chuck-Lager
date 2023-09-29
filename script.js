@@ -203,8 +203,8 @@ $(document).ready(function () {
     $(document).on('click', '.select-location-btn', function () {
         $('.nav .nav_location-list').addClass('visible');
         $('.nav .nav_selected-location').removeClass('visible');
+        $('.nav #nav-loc-dropdown').addClass('visible');
         window.mouseEntered = false;
-        $('#nav-loc-dropdown').addClass('visible');
     });
 
     //
