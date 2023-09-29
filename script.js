@@ -221,17 +221,19 @@ $(document).ready(function () {
         $(this).html($(this).html().replace(/\[regional\]/g, regionalHTML));
         $(this).html($(this).html().replace(/\[Regional\]/g, regionalHTML));
     });
-
-    $('.menu_categories').each(function (index) {
-        const itemsCount = $(this).children().length;
-        console.log(itemsCount);
-
-        if (itemsCount < 4) {
-            $(this).addClass('two-column');
-        } else {
-            $(this).removeClass('two-column');
-        }
-    });
+    setTimeout(function(){
+        $('.menu_categories').each(function (index) {
+            const itemsCount = $(this).children().length;
+            console.log(itemsCount);
+    
+            if (itemsCount < 4) {
+                $(this).addClass('two-column');
+            } else {
+                $(this).removeClass('two-column');
+            }
+        });
+    }, 100);
+    
 
 
 
