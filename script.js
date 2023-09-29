@@ -324,7 +324,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Making request to the Google Maps API
             $.ajax({
                 url: 'https://maps.googleapis.com/maps/api/geocode/json',
-                data: { 'address': address },
+                data: { 'address': address, 'key': 'AIzaSyCjEQk0uw8ALO4fcOaWrwTP_1VmVLw_T6M' },
                 success: function (data) {
                     if (data.results.length > 0) {
                         var location = data.results[0].geometry.location;
