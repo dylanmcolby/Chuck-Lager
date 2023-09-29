@@ -122,9 +122,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 processLocation(userLat, userLng);
             }, function (error) {
                 alert("Sorry, we weren't able to find you. Please set your location manually");
+                if (triggerEl) {$(triggerEl).removeClass('load');};
             });
         } else {
             alert("Sorry, we weren't able to find you. Please set your location manually");
+            if (triggerEl) {$(triggerEl).removeClass('load');};
         }
     }
     //AUTO LOCATION
