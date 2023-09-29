@@ -221,18 +221,25 @@ $(document).ready(function () {
         $(this).html($(this).html().replace(/\[regional\]/g, regionalHTML));
         $(this).html($(this).html().replace(/\[Regional\]/g, regionalHTML));
     });
-    setTimeout(function(){
-        $('.menu_categories').each(function (index) {
-            const itemsCount = $(this).children().length;
-            console.log(itemsCount);
-    
-            if (itemsCount < 4) {
-                $(this).addClass('two-column');
-            } else {
-                $(this).removeClass('two-column');
-            }
+    if (fsAttributes && fsAttributes.cmsnest && fsAttributes.cmsnest.loading) {
+        fsAttributes.cmsnest.loading.then(function(result) {
+            $('.menu_categories').each(function (index) {
+                const itemsCount = $(this).children().length;
+                console.log(itemsCount);
+        
+                if (itemsCount < 4) {
+                    $(this).addClass('two-column');
+                } else {
+                    $(this).removeClass('two-column');
+                }
+            });
+          console.log('Promise is fulfilled with the result:', result);
+        }).catch(function(error) {
+          console.log('Promise rejected with error:', error);
         });
-    }, 500);
+      } else {
+        console.log('fsAttributes or its properties do not exist.');
+      }
     
 
 
