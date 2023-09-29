@@ -191,8 +191,8 @@ document.addEventListener('DOMContentLoaded', function () {
         date.setDate(date.getDate() + 1);
         var expires = ";expires=" + date.toUTCString();
         document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/" + secureFlag + sameSiteFlag;
-        document.cookie = "userLat" + userLat + expires + "; path=/" + secureFlag + sameSiteFlag;
-        document.cookie = "userLat" + userLng + expires + "; path=/" + secureFlag + sameSiteFlag;
+        document.cookie = "userLat=" + userLat + expires + "; path=/" + secureFlag + sameSiteFlag;
+        document.cookie = "userLat=" + userLng + expires + "; path=/" + secureFlag + sameSiteFlag;
 
         locationSetup();
     };
