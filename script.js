@@ -232,7 +232,7 @@ $(document).ready(function () {
                 $(this).removeClass('two-column');
             }
         });
-    }, 100);
+    }, 500);
     
 
 
