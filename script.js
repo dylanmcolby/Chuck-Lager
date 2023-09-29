@@ -1,5 +1,26 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    //FOR LATER CALCS
+    function toRadians(degrees) {
+        return degrees * (Math.PI / 180);
+    }
+
+    function haversineDistance(lat1, lon1, lat2, lon2) {
+        var R = 6371; // Radius of the Earth in km
+        var dLat = toRadians(lat2 - lat1);
+        var dLon = toRadians(lon2 - lon1);
+        var a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var distance = R * c; // Distance in km
+
+        // Convert distance from km to miles
+        distance = distance * 0.621371;
+        return distance;
+    }
+
     //
     //NAV SETUP
     //
@@ -118,15 +139,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.cookie = "locationProximity=exact" + expires + "; path=/" + secureFlag + sameSiteFlag;
                 var userLat = position.coords.latitude;
                 var userLng = position.coords.longitude;
-                if (triggerEl) {$(triggerEl).removeClass('load');};
+                if (triggerEl) { $(triggerEl).removeClass('load'); };
                 processLocation(userLat, userLng);
             }, function (error) {
                 alert("Sorry, we weren't able to find you. Please set your location manually");
-                if (triggerEl) {$(triggerEl).removeClass('load');};
+                if (triggerEl) { $(triggerEl).removeClass('load'); };
             });
         } else {
             alert("Sorry, we weren't able to find you. Please set your location manually");
-            if (triggerEl) {$(triggerEl).removeClass('load');};
+            if (triggerEl) { $(triggerEl).removeClass('load'); };
         }
     }
     //AUTO LOCATION
@@ -145,45 +166,45 @@ document.addEventListener('DOMContentLoaded', function () {
     //FIND CLOSEST LOCATION AND SET LOCATION COOKIE
     const processLocation = function (userLat, userLng) {
         var locations = [];
-            $('#geo-addresses .geo-location').each(function () {
-                var location = {
-                    lat: parseFloat($(this).find('.geo-lat').text()),
-                    lng: parseFloat($(this).find('.geo-long').text()),
-                    address: $(this).find('.geo-address').text(),
-                    slug: $(this).find('.geo-slug').text(),
-                    location: $(this).find('.geo-location').text()
-                };
-                locations.push(location);
-            });
+        $('#geo-addresses .geo-location').each(function () {
+            var location = {
+                lat: parseFloat($(this).find('.geo-lat').text()),
+                lng: parseFloat($(this).find('.geo-long').text()),
+                address: $(this).find('.geo-address').text(),
+                slug: $(this).find('.geo-slug').text(),
+                location: $(this).find('.geo-location').text()
+            };
+            locations.push(location);
+        });
 
-            var closestLocation = null;
-            var shortestDistance = Number.MAX_VALUE;
+        var closestLocation = null;
+        var shortestDistance = Number.MAX_VALUE;
 
-            locations.forEach(function (location) {
-                var distance = Math.sqrt(Math.pow(location.lat - userLat, 2) + Math.pow(location.lng - userLng, 2));
-                if (distance < shortestDistance) {
-                    shortestDistance = distance;
-                    closestLocation = location;
-                }
-            });
-            var date = new Date();
-            date.setDate(date.getDate() + 1);
-            var expires = ";expires=" + date.toUTCString();
-            document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/" + secureFlag + sameSiteFlag;
-            document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/" + secureFlag + sameSiteFlag;
-            
-            $('.geo-distance').each(function () {
-                var $this = $(this);
-                var lat = $this.data('lat');
-                var lon = $this.data('lon');
-                if (lat && lon) {
-                    var distance = haversineDistance(userLat, userLng, lat, lon);
-                    $this.text(distance.toFixed(1) + ' miles away');
-                }
-            });
+        locations.forEach(function (location) {
+            var distance = Math.sqrt(Math.pow(location.lat - userLat, 2) + Math.pow(location.lng - userLng, 2));
+            if (distance < shortestDistance) {
+                shortestDistance = distance;
+                closestLocation = location;
+            }
+        });
+        var date = new Date();
+        date.setDate(date.getDate() + 1);
+        var expires = ";expires=" + date.toUTCString();
+        document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/" + secureFlag + sameSiteFlag;
+        document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/" + secureFlag + sameSiteFlag;
 
-            locationSetup();
-        };
+        $('.geo-distance').each(function () {
+            var $this = $(this);
+            var lat = $this.data('lat');
+            var lon = $this.data('lon');
+            if (lat && lon) {
+                var distance = haversineDistance(userLat, userLng, lat, lon);
+                $this.text(distance.toFixed(1) + ' miles away');
+            }
+        });
+
+        locationSetup();
+    };
     //FOR BUTTONS THAT SELECT INDIVIDUAL LOCATIONS
     const setManualLocationListener = function () {
         $('.geo-select').on('click', function () {
@@ -248,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setManualLocationListener();
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug") || getCookie("restaurantSlug") == 'undefined' || getCookie("restaurantLocation") == 'undefined') {
         setAutoLocation();
-    }  else {
+    } else {
         locationSetup();
     }
     //TO LET USER NAVIGATE TO PANEL TO SELECT LOCATION
