@@ -12,7 +12,7 @@ $(document).ready(function () {
         $('#nav-dropdown').removeClass('visible');
     });
     // Handle click events
-    $('#navmore-hover').on('tap', function (e) {
+    $('#navmore').on('tap', function (e) {
         e.preventDefault();
         $('#nav-dropdown').toggleClass('visible');
     });
