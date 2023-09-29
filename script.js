@@ -217,6 +217,34 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    const sortLocationWidget = function (userLat, userLng) {
+        // Create an array to store the elements and their distances
+        var locationArray = [];
+
+        // Your code to handle the geo-distance elements
+        $('.geo-distance').each(function () {
+            var $this = $(this);
+            var lat = $this.data('lat');
+            var lon = $this.data('lon');
+            if (lat && lon) {
+                var distance = haversineDistance(userLat, userLng, lat, lon);
+                $this.text(distance.toFixed(1) + ' miles away');
+                // Storing the distance and element reference in the array
+                locationArray.push({ distance: distance, element: $this.closest('.nav_select-location') });
+            }
+        });
+
+        // Sorting the array based on the distance
+        locationArray.sort(function (a, b) {
+            return a.distance - b.distance;
+        });
+
+        // Appending the sorted elements back to the .nav_select-locations container
+        var container = $('.nav_select-locations');
+        locationArray.forEach(function (locationObj) {
+            container.append(locationObj.element);
+        });
+    }
     const locationSetup = function (triggerEl) {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
         const restaurantSlug = getCookie("restaurantSlug");
@@ -257,36 +285,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Accessing cookies userLat and userLng
                 var userLat = parseFloat(getCookie('userLat'));
                 var userLng = parseFloat(getCookie('userLng'));
-
-                // Ensuring the retrieved values are numbers and not NaN
                 if (!isNaN(userLat) && !isNaN(userLng)) {
-                    // Create an array to store the elements and their distances
-                    var locationArray = [];
-                  
-                    // Your code to handle the geo-distance elements
-                    $('.geo-distance').each(function () {
-                        var $this = $(this);
-                        var lat = $this.data('lat');
-                        var lon = $this.data('lon');
-                        if (lat && lon) {
-                            var distance = haversineDistance(userLat, userLng, lat, lon);
-                            $this.text(distance.toFixed(1) + ' miles away');
-                            // Storing the distance and element reference in the array
-                            locationArray.push({distance: distance, element: $this.closest('.nav_select-location')});
-                        }
-                    });
-                  
-                    // Sorting the array based on the distance
-                    locationArray.sort(function(a, b) {
-                        return a.distance - b.distance;
-                    });
-                  
-                    // Appending the sorted elements back to the .nav_select-locations container
-                    var container = $('.nav_select-locations');
-                    locationArray.forEach(function(locationObj) {
-                        container.append(locationObj.element);
-                    });
+                    sortLocationWidget(userLat, userLng)
                 }
+
             });
 
         }
