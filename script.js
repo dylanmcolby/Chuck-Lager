@@ -191,17 +191,8 @@ document.addEventListener('DOMContentLoaded', function () {
         date.setDate(date.getDate() + 1);
         var expires = ";expires=" + date.toUTCString();
         document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/" + secureFlag + sameSiteFlag;
-        document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/" + secureFlag + sameSiteFlag;
-
-        $('.geo-distance').each(function () {
-            var $this = $(this);
-            var lat = $this.data('lat');
-            var lon = $this.data('lon');
-            if (lat && lon) {
-                var distance = haversineDistance(userLat, userLng, lat, lon);
-                $this.text(distance.toFixed(1) + ' miles away');
-            }
-        });
+        document.cookie = "userLat" + userLat + expires + "; path=/" + secureFlag + sameSiteFlag;
+        document.cookie = "userLat" + userLng + expires + "; path=/" + secureFlag + sameSiteFlag;
 
         locationSetup();
     };
@@ -263,6 +254,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.mouseEntered = false;
                 };
             });
+            // Accessing cookies userLat and userLng
+            var userLat = parseFloat(getCookie('userLat'));
+            var userLng = parseFloat(getCookie('userLng'));
+
+            // Ensuring the retrieved values are numbers and not NaN
+            if (!isNaN(userLat) && !isNaN(userLng)) {
+                // Your code to handle the geo-distance elements
+                $('.geo-distance').each(function () {
+                    var $this = $(this);
+                    var lat = $this.data('lat');
+                    var lon = $this.data('lon');
+                    if (lat && lon) {
+                        var distance = haversineDistance(userLat, userLng, lat, lon);
+                        $this.text(distance.toFixed(1) + ' miles away');
+                    }
+                });
+            }
         }
     }
     //CHECK IF LOCATION COOKIE EXISTS, IF NOT, SET IT
