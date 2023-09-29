@@ -332,6 +332,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         sortLocationWidget(location.lat, location.lng);
                     } else {
                         alert('Location not found');
+                        console.log(data);
                     }
                 },
                 error: function () {
