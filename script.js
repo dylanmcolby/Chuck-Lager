@@ -112,6 +112,8 @@ document.addEventListener('DOMContentLoaded', function () {
         // Trying to get the location using the Geolocation API
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
+                var date = new Date();
+                date.setDate(date.getDate() + 1);
                 var expires = ";expires=" + date.toUTCString();
                 document.cookie = "locationProximity=exact" + expires + "; path=/" + secureFlag + sameSiteFlag;
                 var userLat = position.coords.latitude;
@@ -132,6 +134,8 @@ document.addEventListener('DOMContentLoaded', function () {
             var userLat = parseFloat(loc[0]);
             var userLng = parseFloat(loc[1]);
             processLocation(userLat, userLng);
+            var date = new Date();
+            date.setDate(date.getDate() + 1);
             var expires = ";expires=" + date.toUTCString();
             document.cookie = "locationProximity=approx" + expires + "; path=/" + secureFlag + sameSiteFlag;
         }, "jsonp");
