@@ -307,4 +307,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 10000);
 
 
+    //HIDE HOURS THAT AREN'T TODAY
+    // Get the current day of the week
+    var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    var currentDay = days[new Date().getDay()];
+
+    // Select all elements with a data-display-* attribute
+    $('[data-display]').each(function () {
+        var $this = $(this);
+
+        // Get the day from the data-display attribute
+        var displayDay = $this.attr('data-display').toLowerCase();
+
+        // If the day does not match the current day, hide the element
+        if (displayDay !== currentDay) {
+            $this.hide();
+        } else {
+            $this.show();
+        }
+    });
+
 });
