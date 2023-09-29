@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.cookie = "locationProximity=exact" + expires + "; path=/" + secureFlag + sameSiteFlag;
                 var userLat = position.coords.latitude;
                 var userLng = position.coords.longitude;
-                unless (!triggerEl) {$(triggerEl).removeClass('load');};
+                if (triggerEl) {$(triggerEl).removeClass('load');};
                 processLocation(userLat, userLng);
             }, function (error) {
                 alert("Sorry, we weren't able to find you. Please set your location manually");
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const setExactLocationListener = function () {
-        $('.set-exact').on('click', function () {
+        $('.set-exact-btn').on('click', function () {
             $(this).addClass('load');
             requestExactLocation(this);
         });
