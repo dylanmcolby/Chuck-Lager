@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var expires = ";expires=" + date.toUTCString();
         document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/" + secureFlag + sameSiteFlag;
         document.cookie = "userLat=" + userLat + expires + "; path=/" + secureFlag + sameSiteFlag;
-        document.cookie = "userLat=" + userLng + expires + "; path=/" + secureFlag + sameSiteFlag;
+        document.cookie = "userLng=" + userLng + expires + "; path=/" + secureFlag + sameSiteFlag;
 
         locationSetup();
     };
