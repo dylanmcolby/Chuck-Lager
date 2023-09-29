@@ -115,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if ("geolocation" in navigator) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     clearTimeout(locationTimeout); // Clear the timeout if the location is obtained successfully
+                    var expires = ";expires=" + date.toUTCString();
                     document.cookie = "locationProximity=exact" + expires + "; path=/" + secureFlag + sameSiteFlag;
                     var userLat = position.coords.latitude;
                     var userLng = position.coords.longitude;
@@ -134,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var userLat = parseFloat(loc[0]);
             var userLng = parseFloat(loc[1]);
             processLocation(userLat, userLng);
+            var expires = ";expires=" + date.toUTCString();
             document.cookie = "locationProximity=approx" + expires + "; path=/" + secureFlag + sameSiteFlag;
         }, "jsonp");
     }
