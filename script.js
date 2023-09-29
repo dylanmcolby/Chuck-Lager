@@ -260,6 +260,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Ensuring the retrieved values are numbers and not NaN
                 if (!isNaN(userLat) && !isNaN(userLng)) {
+                    // Create an array to store the elements and their distances
+                    var locationArray = [];
+                  
                     // Your code to handle the geo-distance elements
                     $('.geo-distance').each(function () {
                         var $this = $(this);
@@ -268,7 +271,20 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (lat && lon) {
                             var distance = haversineDistance(userLat, userLng, lat, lon);
                             $this.text(distance.toFixed(1) + ' miles away');
+                            // Storing the distance and element reference in the array
+                            locationArray.push({distance: distance, element: $this.parent('.nav_select-location')});
                         }
+                    });
+                  
+                    // Sorting the array based on the distance
+                    locationArray.sort(function(a, b) {
+                        return a.distance - b.distance;
+                    });
+                  
+                    // Appending the sorted elements back to the .nav_select-locations container
+                    var container = $('.nav_select-locations');
+                    locationArray.forEach(function(locationObj) {
+                        container.append(locationObj.element);
                     });
                 }
             });
