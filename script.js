@@ -191,13 +191,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    const setExactLocationListener = function () {
-        $('.set-exact-btn').on('click', function () {
-            $(this).addClass('load');
-            requestExactLocation(this);
-        });
-    }
-
     const locationSetup = function (triggerEl) {
         $('#nav-location-name').text(getCookie("restaurantLocation"));
         const restaurantSlug = getCookie("restaurantSlug");
@@ -251,6 +244,12 @@ document.addEventListener('DOMContentLoaded', function () {
         $('.nav .nav_selected-location').removeClass('visible');
         setTimeout(function () { $('#nav-loc-dropdown').addClass('visible') }, 1);
         window.mouseEntered = false;
+    });
+
+    //to let user choose exact location
+    $('.set-exact-btn').on('click', function () {
+        $(this).addClass('load');
+        requestExactLocation(this);
     });
 
     //
