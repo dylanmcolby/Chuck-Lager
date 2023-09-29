@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var address = $(this).val();
             // Making request to the Google Maps API
             $.ajax({
-                url: 'http://maps.googleapis.com/maps/api/geocode/json',
+                url: 'https://maps.googleapis.com/maps/api/geocode/json',
                 data: { 'address': address },
                 success: function (data) {
                     if (data.results.length > 0) {
