@@ -111,20 +111,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const setAutoLocation = function (exactOnly) {
         var locationTimeout = setTimeout(useIpInfo, 1000); // Set a timeout to use ipinfo.io after 1 seconds
         // Trying to get the location using the Geolocation API
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                clearTimeout(locationTimeout); // Clear the timeout if the location is obtained successfully
-                document.cookie = "locationProximity=exact" + expires + "; path=/" + secureFlag + sameSiteFlag;
-                var userLat = position.coords.latitude;
-                var userLng = position.coords.longitude;
-                processLocation(userLat, userLng);
-            }, function (error) {
-                clearTimeout(locationTimeout); // Clear the timeout if there was an error
-                if (!exactOnly) { useIpInfo(); } // Use ipinfo.io as a fallback
-            });
-        } else {
+        setTimeout(function() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    clearTimeout(locationTimeout); // Clear the timeout if the location is obtained successfully
+                    document.cookie = "locationProximity=exact" + expires + "; path=/" + secureFlag + sameSiteFlag;
+                    var userLat = position.coords.latitude;
+                    var userLng = position.coords.longitude;
+                    processLocation(userLat, userLng);
+                }, function(error) {
+                    clearTimeout(locationTimeout); // Clear the timeout if there was an error
+                    if (!exactOnly) { useIpInfo(); } // Use ipinfo.io as a fallback
+                });
+            }  else {
             if (!exactOnly) { useIpInfo(); } // Use ipinfo.io if Geolocation API is not available
-        }
+        }}, 3000);
     }
     //FALLBACK
     const useIpInfo = function () {
