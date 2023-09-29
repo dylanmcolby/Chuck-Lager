@@ -315,6 +315,33 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     //
+    //to let user search location widget
+    //
+    $('#geo-search-input').on('keypress', function (e) {
+        if (e.which == 13) { // Check if the enter key was pressed
+            e.preventDefault();
+            var address = $(this).val();
+            // Making request to the Google Maps API
+            $.ajax({
+                url: 'http://maps.googleapis.com/maps/api/geocode/json',
+                data: { 'address': address },
+                success: function (data) {
+                    if (data.results.length > 0) {
+                        var location = data.results[0].geometry.location;
+                        // Calling the sortLocationWidget function with the returned latitude and longitude
+                        sortLocationWidget(location.lat, location.lng);
+                    } else {
+                        alert('Location not found');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred');
+                }
+            });
+        }
+    });
+
+    //
     //RICH TEXT MENU SETUP 
     //
 
