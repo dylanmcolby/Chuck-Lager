@@ -256,40 +256,4 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 10000);
 
 
-    //
-    //load google maps
-    //
-    // Function to load Google Maps
-    function loadGoogleMaps() {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap';
-        document.body.appendChild(script);
-    }
-
-    // Function to handle the Intersection Observer
-    function handleIntersection(entries, observer) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                loadGoogleMaps();
-                observer.unobserve(entry.target); // Unobserve after loading Google Maps
-            }
-        });
-    }
-
-    // Setup Intersection Observer
-    const options = {
-        root: null, // use the viewport as the root
-        rootMargin: '50vh 0px', // set margins such that we preload '50vh' pixels before actually hitting the target
-        threshold: 0 // trigger as soon as a single pixel is visible
-    };
-
-    const observer = new IntersectionObserver(handleIntersection, options);
-
-    // Observe elements with class .gmap-loader
-    const gmapLoaders = document.querySelectorAll('.gmap-loader');
-    gmapLoaders.forEach(loader => {
-        observer.observe(loader);
-    });
-
 });
