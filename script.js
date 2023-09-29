@@ -183,8 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             locationSetup();
-        });
-    }
+        };
     //FOR BUTTONS THAT SELECT INDIVIDUAL LOCATIONS
     const setManualLocationListener = function () {
         $('.geo-select').on('click', function () {
