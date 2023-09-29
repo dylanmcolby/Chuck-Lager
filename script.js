@@ -144,10 +144,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     //FIND CLOSEST LOCATION AND SET LOCATION COOKIE
     const processLocation = function (userLat, userLng) {
-        var tempDiv = $("<div>");
-        tempDiv.load("/locations #addresses", function () {
-            var locations = [];
-            tempDiv.find('.geo-location').each(function () {
+        var locations = [];
+            $('#geo-addresses .geo-location').each(function () {
                 var location = {
                     lat: parseFloat($(this).find('.geo-lat').text()),
                     lng: parseFloat($(this).find('.geo-long').text()),
@@ -173,6 +171,16 @@ document.addEventListener('DOMContentLoaded', function () {
             var expires = ";expires=" + date.toUTCString();
             document.cookie = "restaurantLocation=" + closestLocation.location + expires + "; path=/" + secureFlag + sameSiteFlag;
             document.cookie = "restaurantSlug=/locations/" + closestLocation.slug + expires + "; path=/" + secureFlag + sameSiteFlag;
+            
+            $('.geo-distance').each(function () {
+                var $this = $(this);
+                var lat = $this.data('lat');
+                var lon = $this.data('lon');
+                if (lat && lon) {
+                    var distance = haversineDistance(userLat, userLng, lat, lon);
+                    $this.text(distance.toFixed(1) + ' miles away');
+                }
+            });
 
             locationSetup();
         });
