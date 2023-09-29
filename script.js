@@ -108,28 +108,25 @@ document.addEventListener('DOMContentLoaded', function () {
     var sameSiteFlag = "; SameSite=Strict"; // Cookie will only be sent in a first-party context
 
 
-    const setAutoLocation = function (exactOnly) {
-        var locationTimeout = setTimeout(useIpInfo, 1000); // Set a timeout to use ipinfo.io after 1 seconds
+    const requestExactLocation = function (triggerEl) {
         // Trying to get the location using the Geolocation API
-        setTimeout(function() {
-            if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    clearTimeout(locationTimeout); // Clear the timeout if the location is obtained successfully
-                    var expires = ";expires=" + date.toUTCString();
-                    document.cookie = "locationProximity=exact" + expires + "; path=/" + secureFlag + sameSiteFlag;
-                    var userLat = position.coords.latitude;
-                    var userLng = position.coords.longitude;
-                    processLocation(userLat, userLng);
-                }, function(error) {
-                    clearTimeout(locationTimeout); // Clear the timeout if there was an error
-                    if (!exactOnly) { useIpInfo(); } // Use ipinfo.io as a fallback
-                });
-            }  else {
-            if (!exactOnly) { useIpInfo(); } // Use ipinfo.io if Geolocation API is not available
-        }}, 3000);
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var expires = ";expires=" + date.toUTCString();
+                document.cookie = "locationProximity=exact" + expires + "; path=/" + secureFlag + sameSiteFlag;
+                var userLat = position.coords.latitude;
+                var userLng = position.coords.longitude;
+                unless (!triggerEl) {$(triggerEl).removeClass('load');};
+                processLocation(userLat, userLng);
+            }, function (error) {
+                alert("Sorry, we weren't able to find you. Please set your location manually");
+            });
+        } else {
+            alert("Sorry, we weren't able to find you. Please set your location manually");
+        }
     }
-    //FALLBACK
-    const useIpInfo = function () {
+    //AUTO LOCATION
+    const setAutoLocation = function () {
         $.get("https://ipinfo.io", function (response) {
             var loc = response.loc.split(','); // response.loc will be in "latitude,longitude" format
             var userLat = parseFloat(loc[0]);
@@ -174,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
             locationSetup();
         });
     }
-
+    //FOR BUTTONS THAT SELECT INDIVIDUAL LOCATIONS
     const setManualLocationListener = function () {
         $('.geo-select').on('click', function () {
             $(this).addClass('load');
@@ -191,6 +188,13 @@ document.addEventListener('DOMContentLoaded', function () {
             document.cookie = "restaurantSlug=/locations/" + slug + expires + "; path=/" + secureFlag + sameSiteFlag;
             document.cookie = "locationProximity=manual" + expires + "; path=/" + secureFlag + sameSiteFlag;
             locationSetup(this);
+        });
+    }
+
+    const setExactLocationListener = function () {
+        $('.set-exact').on('click', function () {
+            $(this).addClass('load');
+            requestExactLocation(this);
         });
     }
 
@@ -234,17 +238,14 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
-    //INITIALIZE PAGE WITH LOCATION SETUP
+    //CHECK IF LOCATION COOKIE EXISTS, IF NOT, SET IT
     setManualLocationListener();
     if (!getCookie("restaurantLocation") || !getCookie("restaurantSlug") || getCookie("restaurantSlug") == 'undefined' || getCookie("restaurantLocation") == 'undefined') {
         setAutoLocation();
-    } else if (getCookie("locationProximity") == 'approx') {
-        var exactOnly = true;
-        setAutoLocation(exactOnly);
-
-    } else {
+    }  else {
         locationSetup();
     }
+    //TO LET USER NAVIGATE TO PANEL TO SELECT LOCATION
     $(document).on('click', '.select-location-btn', function () {
         $('.nav .nav_location-list').addClass('visible');
         $('.nav .nav_selected-location').removeClass('visible');
