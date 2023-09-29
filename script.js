@@ -253,24 +253,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     $('.nav #nav-loc-dropdown').addClass('visible');
                     window.mouseEntered = false;
                 };
-            });
-            // Accessing cookies userLat and userLng
-            var userLat = parseFloat(getCookie('userLat'));
-            var userLng = parseFloat(getCookie('userLng'));
+                // Accessing cookies userLat and userLng
+                var userLat = parseFloat(getCookie('userLat'));
+                var userLng = parseFloat(getCookie('userLng'));
 
-            // Ensuring the retrieved values are numbers and not NaN
-            if (!isNaN(userLat) && !isNaN(userLng)) {
-                // Your code to handle the geo-distance elements
-                $('.geo-distance').each(function () {
-                    var $this = $(this);
-                    var lat = $this.data('lat');
-                    var lon = $this.data('lon');
-                    if (lat && lon) {
-                        var distance = haversineDistance(userLat, userLng, lat, lon);
-                        $this.text(distance.toFixed(1) + ' miles away');
-                    }
-                });
-            }
+                // Ensuring the retrieved values are numbers and not NaN
+                if (!isNaN(userLat) && !isNaN(userLng)) {
+                    // Your code to handle the geo-distance elements
+                    $('.geo-distance').each(function () {
+                        var $this = $(this);
+                        var lat = $this.data('lat');
+                        var lon = $this.data('lon');
+                        if (lat && lon) {
+                            var distance = haversineDistance(userLat, userLng, lat, lon);
+                            $this.text(distance.toFixed(1) + ' miles away');
+                        }
+                    });
+                }
+            });
+
         }
     }
     //CHECK IF LOCATION COOKIE EXISTS, IF NOT, SET IT
