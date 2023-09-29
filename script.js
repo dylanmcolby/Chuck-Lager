@@ -221,25 +221,35 @@ $(document).ready(function () {
         $(this).html($(this).html().replace(/\[regional\]/g, regionalHTML));
         $(this).html($(this).html().replace(/\[Regional\]/g, regionalHTML));
     });
-    if (fsAttributes && fsAttributes.cmsnest && fsAttributes.cmsnest.loading) {
-        fsAttributes.cmsnest.loading.then(function(result) {
-            $('.menu_categories').each(function (index) {
-                const itemsCount = $(this).children().length;
-                console.log(itemsCount);
-        
-                if (itemsCount < 4) {
-                    $(this).addClass('two-column');
-                } else {
-                    $(this).removeClass('two-column');
-                }
-            });
-          console.log('Promise is fulfilled with the result:', result);
-        }).catch(function(error) {
-          console.log('Promise rejected with error:', error);
-        });
-      } else {
-        console.log('fsAttributes or its properties do not exist.');
-      }
+    let checkExist = setInterval(function() {
+        if (typeof fsAttributes !== 'undefined') {
+           clearInterval(checkExist); // stop the interval
+           if (fsAttributes && fsAttributes.cmsnest && fsAttributes.cmsnest.loading) {
+             fsAttributes.cmsnest.loading.then(function(result) {
+               $('.menu_categories').each(function (index) {
+                   const itemsCount = $(this).children().length;
+                   console.log(itemsCount);
+           
+                   if (itemsCount < 4) {
+                       $(this).addClass('two-column');
+                   } else {
+                       $(this).removeClass('two-column');
+                   }
+               });
+             }).catch(function(error) {
+               console.log('Promise rejected with error:', error);
+             });
+           } else {
+             console.log('fsAttributes or its properties do not exist.');
+           }
+        }
+     }, 100); // check every 100ms
+     
+     // Stop checking after 10 seconds
+     setTimeout(function() {
+       clearInterval(checkExist);
+     }, 10000);
+     
     
 
 
