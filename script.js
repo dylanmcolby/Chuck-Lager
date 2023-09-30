@@ -268,11 +268,11 @@ document.addEventListener('DOMContentLoaded', function () {
             $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
                 //set navigation buttons to be location-specific
                 const geoMenuHref = $(this).find('[data-geo-menu]').attr('href');
-                if (geoMenuHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-menu]').attr('href', geoMenuHref); } else { $('.nav [data-geo-menu]').attr('href', '/locations'); }
+                if (geoMenuHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-menu]').attr('href', geoMenuHref); } else { $('.nav [data-geo-menu]').attr('href', '/menu'); }
                 const geoReserveHref = $(this).find('[data-geo-reserve]').attr('href');
-                if (geoReserveHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-reserve]').attr('href', geoReserveHref); } else { $('.nav [data-geo-reserve]').attr('href', '/locations'); }
+                if (geoReserveHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-reserve]').attr('href', geoReserveHref); } else { $('.nav [data-geo-reserve]').attr('href', '/reserve'); }
                 const geoOrderHref = $(this).find('[data-geo-order]').attr('href');
-                if (geoOrderHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-order]').attr('href', geoOrderHref); } else { $('.nav [data-geo-order]').attr('href', '/locations'); }
+                if (geoOrderHref != "#" && geoMenuHref != null && geoMenuHref != "") { $('.nav [data-geo-order]').attr('href', geoOrderHref); } else { $('.nav [data-geo-order]').attr('href', '/order'); }
                 const newNavSelectedLocation = $(this).find('.nav_selected-location');
                 $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
                 $('.nav .nav_location-list').removeClass('visible');
@@ -286,7 +286,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 var userLat = parseFloat(getCookie('userLat'));
                 var userLng = parseFloat(getCookie('userLng'));
                 if (!isNaN(userLat) && !isNaN(userLng)) {
-                    sortLocationWidget(userLat, userLng)
+                    sortLocationWidget(userLat, userLng);
+                    sortLocationPage(userLat, userLng);
                 }
 
             });
