@@ -341,7 +341,59 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    
+    //
+    //to let user search location PAGE
+    //
+    $('#geo-search-page-input').on('keypress', function (e) {
+        if (e.which == 13) { // Check if the enter key was pressed
+            e.preventDefault();
+            var address = $(this).val();
+            // Making request to the Google Maps API
+            $.ajax({
+                url: 'https://maps.googleapis.com/maps/api/geocode/json',
+                data: { 'address': address, 'key': 'AIzaSyCjEQk0uw8ALO4fcOaWrwTP_1VmVLw_T6M' },
+                success: function (data) {
+                    if (data.results.length > 0) {
+                        var location = data.results[0].geometry.location;
+                        sortLocationPage(location.lat, location.lng);
+                    } else {
+                        alert('Location not found');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred');
+                }
+            });
+        }
+    });
+    const sortLocationPage = function (userLat, userLng) {
+        // Create an array to store the elements and their distances
+        var locationArray = [];
+
+        // Your code to handle the geo-distance elements
+        $('.geo-location').each(function () {
+            var $this = $(this);
+            var lat = $this.data('lat');
+            var lng = $this.data('lng');
+            if (lat && lng) {
+                var distance = haversineDistance(userLat, userLng, lat, lng);
+                // $this.text(distance.toFixed(1) + ' miles away');
+                // Storing the distance and element reference in the array
+                locationArray.push({ distance: distance, element: $this });
+            }
+        });
+
+        // Sorting the array based on the distance
+        locationArray.sort(function (a, b) {
+            return a.distance - b.distance;
+        });
+
+        // Appending the sorted elements back to the .location_select-locations container
+        var container = $('.location_select-locations');
+        locationArray.forEach(function (locationObj) {
+            container.append(locationObj.element);
+        });
+    }
 
     //
     //RICH TEXT MENU SETUP 
