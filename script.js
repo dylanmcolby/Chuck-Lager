@@ -387,8 +387,6 @@ document.addEventListener('DOMContentLoaded', function () {
             var lng = $this.data('lng');
             if (lat && lng) {
                 var distance = haversineDistance(userLat, userLng, lat, lng);
-                // $this.text(distance.toFixed(1) + ' miles away');
-                // Storing the distance and element reference in the array
                 locationArray.push({ distance: distance, element: $this });
             }
         });
@@ -404,11 +402,11 @@ document.addEventListener('DOMContentLoaded', function () {
             container.append(locationObj.element);
         });
 
-        if (map) {
-            var latLng = new google.maps.LatLng(userLat, userLng);
-            if(map.setCenter) {map.setCenter(latLng);};
-            if(map.setZoom){ map.setZoom(8);};
-        }
+        // if (map) {
+        //     var latLng = new google.maps.LatLng(userLat, userLng);
+        //     if(map.setCenter) {map.setCenter(latLng);};
+        //     if(map.setZoom){ map.setZoom(8);};
+        // }
     }
 
     //
