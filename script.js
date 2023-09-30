@@ -233,15 +233,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 locationArray.push({ distance: distance, element: $this.closest('.nav_select-location') });
             }
         });
-        $('.location .geo-distance').each(function () {
-            var $this = $(this);
-            var lat = $this.data('lat');
-            var lon = $this.data('lon');
-            if (lat && lon) {
-                var distance = haversineDistance(userLat, userLng, lat, lon);
-                $this.text(distance.toFixed(1) + ' miles away');
-            }
-        });
 
         // Sorting the array based on the distance
         locationArray.sort(function (a, b) {
@@ -297,6 +288,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!isNaN(userLat) && !isNaN(userLng)) {
                     sortLocationWidget(userLat, userLng);
                     sortLocationPage(userLat, userLng);
+                    $('.location .geo-distance').each(function () {
+                        var $this = $(this);
+                        var lat = $this.data('lat');
+                        var lon = $this.data('lon');
+                        if (lat && lon) {
+                            var distance = haversineDistance(userLat, userLng, lat, lon);
+                            $this.text(distance.toFixed(1) + ' miles away');
+                        }
+                    });
                 }
 
             });
