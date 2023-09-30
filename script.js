@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (map) {
             var latLng = new google.maps.LatLng(userLat, userLng);
-            map.setCenter(latLng);
+            if(map.setCenter) {map.setCenter(latLng);};
             map.setZoom(8);
         }
     }
