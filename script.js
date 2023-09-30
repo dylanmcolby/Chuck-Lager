@@ -407,7 +407,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (map) {
             var latLng = new google.maps.LatLng(userLat, userLng);
             if(map.setCenter) {map.setCenter(latLng);};
-            if(map.setZoom) map.setZoom(8);};
+            if(map.setZoom){ map.setZoom(8);};
         }
     }
 
