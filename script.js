@@ -393,6 +393,12 @@ document.addEventListener('DOMContentLoaded', function () {
         locationArray.forEach(function (locationObj) {
             container.append(locationObj.element);
         });
+
+        if (map) {
+            var latLng = new google.maps.LatLng(userLat, userLng);
+            map.setCenter(latLng);
+            map.setZoom(12); // set desired zoom level
+        }
     }
 
     //
