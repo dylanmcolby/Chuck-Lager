@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (map) {
             var latLng = new google.maps.LatLng(userLat, userLng);
             map.setCenter(latLng);
-            map.setZoom(12); // set desired zoom level
+            map.setZoom(8);
         }
     }
 
