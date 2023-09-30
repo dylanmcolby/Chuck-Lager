@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var locationArray = [];
 
         // Your code to handle the geo-distance elements
-        $('.geo-distance').each(function () {
+        $('.nav .geo-distance').each(function () {
             var $this = $(this);
             var lat = $this.data('lat');
             var lon = $this.data('lon');
@@ -231,6 +231,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 $this.text(distance.toFixed(1) + ' miles away');
                 // Storing the distance and element reference in the array
                 locationArray.push({ distance: distance, element: $this.closest('.nav_select-location') });
+            }
+        });
+        $('.location .geo-distance').each(function () {
+            var $this = $(this);
+            var lat = $this.data('lat');
+            var lon = $this.data('lon');
+            if (lat && lon) {
+                var distance = haversineDistance(userLat, userLng, lat, lon);
+                $this.text(distance.toFixed(1) + ' miles away');
             }
         });
 
