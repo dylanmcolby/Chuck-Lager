@@ -268,10 +268,10 @@ document.addEventListener('DOMContentLoaded', function () {
             $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
                 alert('triggered');
                 //set navigation buttons to be location-specific
-                $('[data-geo-source]').each(function() {
+                $('[data-geo-source]', this).each(function() {
                     const source = $(this);
                     const sourceAttr = source.data('geo-source');
-                    const href = source.attr('href') || '/'; 
+                    const href = source.attr('href') || '/';
                     $(`[data-geo-target="${sourceAttr}"]`).attr('href', (i, currentValue) => {
                         return href !== '#' ? href : currentValue;
                     });
