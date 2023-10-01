@@ -266,7 +266,6 @@ document.addEventListener('DOMContentLoaded', function () {
         //continue to update all links and states if window does not need to be changed
         if (shouldExit == false) {
             $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
-                alert('triggered');
                 //set navigation buttons to be location-specific
                 $('[data-geo-source]', this).each(function() {
                     const source = $(this);
