@@ -442,10 +442,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (itemsCount < 2) {
                             $(this).addClass('one-column');
                         } else if (itemsCount < 4) {
-                            $(this).addClass('two-colummn');
+                            $(this).addClass('two-column');
                         } else {
-                            $(this).removeClass('two-colummn');
-                            $(this).removeClass('one-colummn');
+                            $(this).removeClass('two-column');
+                            $(this).removeClass('one-column');
                         }
                     });
                 }).catch(function (error) {
