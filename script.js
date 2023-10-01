@@ -439,9 +439,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     $('.menu_categories').each(function (index) {
                         const itemsCount = $(this).children().length;
 
-                        if (itemsCount < 4) {
-                            $(this).addClass('two-column');
-                        } else if (itemsCount <2) {
+                        if (itemsCount < 2) {
+                            $(this).addClass('one-column');
+                        } else if (itemsCount < 4) {
                             $(this).addClass('one-colummn');
                         } else {
                             $(this).removeClass('two-colummn');
