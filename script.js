@@ -136,11 +136,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (url.hostname && url.hostname !== currentDomain) {
                     $('#confirm-order').addClass('visible');
                 } else {
-                    window.open(link);
+                    window.location.href = link;
                 }
             } catch (e) {
                 console.error('Invalid URL', e);
-                window.open(link);
+                window.location.href = link;
             }
         }
     });
