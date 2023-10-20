@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     //ORDER BUTTONS IN NAV SHOULD CONFIRM LOCATION ON CLICK
-    $('#nav-order-now').click(function (event) {
+    function handleConfirmClick(event, confirmId) {
         var link = $(this).attr('href');
         var currentDomain = window.location.hostname;
     
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
             try {
                 var url = new URL(link, window.location.href);
                 if (url.hostname && url.hostname !== currentDomain) {
-                    $('#confirm-order').addClass('visible');
+                    $(`#${confirmId}`).addClass('visible');
                 } else {
                     window.location.href = link;
                 }
@@ -143,9 +143,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.location.href = link;
             }
         }
+    }
+    $('#nav-order-now').click(function (event) {
+        handleConfirmClick.call(this, event, 'confirm-order');
+    });
+    $('#nav-reserve-now').click(function (event) {
+        handleConfirmClick.call(this, event, 'confirm-reserve');
     });
     $('#confirm-order a').click(function () {
         $('#confirm-order').removeClass('visible');
+        $('#confirm-reserve').removeClass('visible');
     });
 
     //
