@@ -2,7 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
     //OPEN OUTSIDE LINKS IN NEW TAB
     $(document).on('click', 'a', function (event) {
         var href = $(this).attr('href');
-
+        if ($(this).attr('data-prevent-default')) {
+            event.preventDefault();
+            return;
+          }        
         if (href && href.indexOf('http') === 0 && href.indexOf(location.hostname) == -1) {
             event.preventDefault(); // prevent the default action (navigation)
             window.open(href, '_blank'); // open the link in a new tab
