@@ -152,6 +152,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     $('#confirm-order a').click(function () {
         $('#confirm-order').removeClass('visible');
+    });
+    $('#confirm-reserve a').click(function () {
         $('#confirm-reserve').removeClass('visible');
     });
 
