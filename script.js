@@ -131,9 +131,11 @@ document.addEventListener('DOMContentLoaded', function () {
         var currentDomain = window.location.hostname;
         if (new URL(link).hostname !== currentDomain) {
             $('#confirm-order').addClass('visible');
+        } else {
+            window.open(link);
         }
     });
-    $('#confirm-order-change, #confirm-order, #confirm-cancel').click(function () {
+    $('#confirm-order a').click(function () {
         $('#confirm-order').removeClass('visible');
     });
 
