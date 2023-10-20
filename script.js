@@ -129,18 +129,18 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#nav-order-now').click(function (event) {
         var link = $(this).attr('href');
         var currentDomain = window.location.hostname;
-
+    
         if (link) {
             try {
-                var url = new URL(link);
-                if (url.hostname !== currentDomain) {
+                var url = new URL(link, window.location.href);
+                if (url.hostname && url.hostname !== currentDomain) {
                     $('#confirm-order').addClass('visible');
                 } else {
                     window.open(link);
                 }
             } catch (e) {
                 console.error('Invalid URL', e);
-                // Handle invalid URL here
+                window.open(link);
             }
         }
     });
