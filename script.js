@@ -320,6 +320,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         return href !== '#' ? href : currentValue;
                     });
                 });
+                $('[data-text-source]', this).each(function () {
+                    const source = $(this);
+                    const sourceAttr = source.data('text-source');
+                    const sourceText = source.text();
+                    $(`[data-text-target="${sourceAttr}"]`).text(sourceText);
+                });
                 const newNavSelectedLocation = $(this).find('.nav_selected-location');
                 $('.nav .nav_selected-location').replaceWith(newNavSelectedLocation);
                 $('.nav .nav_location-list').removeClass('visible');
