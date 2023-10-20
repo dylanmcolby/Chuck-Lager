@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     //OPEN OUTSIDE LINKS IN NEW TAB
-    $(document).on('click', 'a', function(event) {
+    $(document).on('click', 'a', function (event) {
         var href = $(this).attr('href');
-        
+
         if (href && href.indexOf('http') === 0 && href.indexOf(location.hostname) == -1) {
-          event.preventDefault(); // prevent the default action (navigation)
-          window.open(href, '_blank'); // open the link in a new tab
+            event.preventDefault(); // prevent the default action (navigation)
+            window.open(href, '_blank'); // open the link in a new tab
         }
-      });
+    });
     //FOR LATER CALCS
     function toRadians(degrees) {
         return degrees * (Math.PI / 180);
@@ -123,11 +123,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     //ORDER BUTTONS IN NAV SHOULD CONFIRM LOCATION ON CLICK
-    $('button[data-geo-target="order"], a[data-geo-target="order"]').click(function(event){
-        event.preventDefault();
-        $('#confirm-order').addClass('visible');
-      });
-    $('#confirm-order').click(function(){
+    $('#nav-order-now').click(function (event) {
+        var link = $(this).attr('href');
+        var currentDomain = window.location.hostname;
+        if (new URL(link).hostname !== currentDomain) {
+            event.preventDefault();
+            $('#confirm-order').addClass('visible');
+        }
+    });
+    $('#confirm-order-change, #confirm-order').click(function () {
         $('#confirm-order').removeClass('visible');
     });
 
@@ -263,8 +267,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     const locationSetup = function (triggerEl) {
         var currentLocationName = getCookie("restaurantLocation");
-        $('[data-location-name]').each(function() {
-        $(this).text(currentLocationName);
+        $('[data-location-name]').each(function () {
+            $(this).text(currentLocationName);
         });
         const restaurantSlug = getCookie("restaurantSlug");
         let shouldExit = false;
@@ -286,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (shouldExit == false) {
             $('<div />').load(`${restaurantSlug} #nav-location-tile`, function () {
                 //set navigation buttons to be location-specific
-                $('[data-geo-source]', this).each(function() {
+                $('[data-geo-source]', this).each(function () {
                     const source = $(this);
                     const sourceAttr = source.data('geo-source');
                     const href = source.attr('href') || '/';
