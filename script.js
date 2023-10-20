@@ -122,12 +122,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
-    //ORDER BUTTONS IN NAV SHOULD CONFIRM LOCATION ON CLICKA
+    //ORDER BUTTONS IN NAV SHOULD CONFIRM LOCATION ON CLICK
     $('button[data-geo-target="order"], a[data-geo-target="order"]').click(function(event){
         event.preventDefault();
-        $('#confirm-order').show();
+        $('#confirm-order').addClass('visible');
       });
-
+    $('#confirm-order').click(function(){
+        $('#confirm-order').removeClass('visible');
+    });
 
     //
     //LOCATION SETUP
