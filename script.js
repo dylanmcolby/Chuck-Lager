@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if ($(this).attr('data-prevent-default')) {
             event.preventDefault();
             return;
-          }        
+        }
         if (href && href.indexOf('http') === 0 && href.indexOf(location.hostname) == -1) {
             event.preventDefault(); // prevent the default action (navigation)
             window.open(href, '_blank'); // open the link in a new tab
@@ -129,10 +129,19 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#nav-order-now').click(function (event) {
         var link = $(this).attr('href');
         var currentDomain = window.location.hostname;
-        if (new URL(link).hostname !== currentDomain) {
-            $('#confirm-order').addClass('visible');
-        } else {
-            window.open(link);
+
+        if (link) {
+            try {
+                var url = new URL(link);
+                if (url.hostname !== currentDomain) {
+                    $('#confirm-order').addClass('visible');
+                } else {
+                    window.open(link);
+                }
+            } catch (e) {
+                console.error('Invalid URL', e);
+                // Handle invalid URL here
+            }
         }
     });
     $('#confirm-order a').click(function () {
