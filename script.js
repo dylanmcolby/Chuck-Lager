@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $(document).on('click', 'a', function (event) {
         var href = $(this).attr('href');
         if ($(this).attr('data-prevent-default')) {
+            console.log('blocking');
             event.preventDefault();
             return;
           }        
@@ -131,10 +132,11 @@ document.addEventListener('DOMContentLoaded', function () {
         var currentDomain = window.location.hostname;
         if (new URL(link).hostname !== currentDomain) {
             event.preventDefault();
+            console.log('blocking');
             $('#confirm-order').addClass('visible');
         }
     });
-    $('#confirm-order-change, #confirm-order').click(function () {
+    $('#confirm-order-change, #confirm-order, #confirm-cancel').click(function () {
         $('#confirm-order').removeClass('visible');
     });
 
