@@ -122,6 +122,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+    //ORDER BUTTONS IN NAV SHOULD CONFIRM LOCATION ON CLICKA
+    $('button[data-geo-target="order"], a[data-geo-target="order"]').click(function(event){
+        event.preventDefault();
+        $('#confirm-order').show();
+      });
+
 
     //
     //LOCATION SETUP
@@ -254,7 +260,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     const locationSetup = function (triggerEl) {
-        $('#nav-location-name').text(getCookie("restaurantLocation"));
+        var currentLocationName = getCookie("restaurantLocation");
+        $('[data-location-name]').each(function() {
+        $(this).text(currentLocationName);
+        });
         const restaurantSlug = getCookie("restaurantSlug");
         let shouldExit = false;
         //if user manually set location, then we can change current window if it is location-oriented
