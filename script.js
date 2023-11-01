@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    
+
     //OPEN OUTSIDE LINKS IN NEW TAB
     $(document).on('click', 'a', function (event) {
         var href = $(this).attr('href');
@@ -473,6 +473,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.results.length > 0) {
                         var location = data.results[0].geometry.location;
                         sortLocationPage(location.lat, location.lng);
+                        window.scrollTo(0, 0);
                     } else {
                         alert('Location not found');
                     }
