@@ -1,4 +1,58 @@
 document.addEventListener('DOMContentLoaded', function () {
+    //ANIMATIONS
+    const visibleTriggers = document.querySelectorAll('[animtype]');
+
+    const observerCallback = function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const targetElements = entry.target.animTargetElements || [entry.target];
+          targetElements.forEach(targetElement => {
+            const delay = Number(targetElement.getAttribute('animtype'));
+            let animScrollValue = targetElement.getAttribute('animscroll') || "20";
+            animScrollValue = parseFloat(animScrollValue) / 100;
+            if(entry.intersectionRatio >= animScrollValue) {
+              setTimeout(() => {
+                targetElement.classList.remove('preload');
+                targetElement.classList.add('load');
+              }, delay);
+            }
+          });
+        }
+      });
+    };
+
+    const observedParents = new Map();  // A map to keep track of observed parents and their children
+
+    visibleTriggers.forEach(element => {
+      let observeTarget = element;
+      
+      if(element.hasAttribute('anim-parent-class')) {
+        const parentClass = element.getAttribute('anim-parent-class');
+        const parentElement = element.closest(`.${parentClass}`);
+        if(parentElement) {
+          observeTarget = parentElement;
+          if (observedParents.has(parentElement)) {
+            observedParents.get(parentElement).push(element);
+          } else {
+            observedParents.set(parentElement, [element]);
+            observeTarget.animTargetElements = observedParents.get(parentElement);
+          }
+        }
+      }
+
+      // Only set up an observer for the parent if it hasn't been set up already
+      if (!observeTarget.animObserver) {
+        let thresholdValue = parseFloat(element.getAttribute('animscroll') || "20") / 100;
+        const observerOptions = {
+          threshold: thresholdValue,
+        };
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+        observer.observe(observeTarget);
+        observeTarget.animObserver = observer; // Mark the parent as observed
+      }
+    });
+
+    
     //OPEN OUTSIDE LINKS IN NEW TAB
     $(document).on('click', 'a', function (event) {
         var href = $(this).attr('href');
