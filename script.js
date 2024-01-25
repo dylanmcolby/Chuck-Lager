@@ -520,6 +520,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     //RICH TEXT MENU SETUP 
     //
+    setTimeout(() => {
 
     $('.menu_items-rich-text').each(function () {
         // Replace [glutenfree] with its corresponding image
@@ -537,6 +538,8 @@ document.addEventListener('DOMContentLoaded', function () {
         $(this).html($(this).html().replace(/\[regional\]/g, regionalHTML));
         $(this).html($(this).html().replace(/\[Regional\]/g, regionalHTML));
     });
+
+
     let checkExist = setInterval(function () {
         if (typeof fsAttributes !== 'undefined') {
             clearInterval(checkExist); // stop the interval
@@ -567,7 +570,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function () {
         clearInterval(checkExist);
     }, 10000);
-
+ }, 1000);
 
     //HIDE HOURS THAT AREN'T TODAY
     // Get the current day of the week
