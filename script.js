@@ -522,9 +522,9 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     setTimeout(() => {
     $('.menu_items-rich-text').each(function () {
-        // Replace [glutenfree] with its corresponding image, case-insensitively
+        // Replace [glutenfree] and [gluten free] with its corresponding image, case-insensitively
         var glutenFreeHTML = '<img alt="Gluten Free" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/65148360a9e331145818522c_glutenfree.svg">';
-        $(this).html($(this).html().replace(/\[glutenfree\]/gi, glutenFreeHTML));
+        $(this).html($(this).html().replace(/\[gluten\s?free\]/gi, glutenFreeHTML));
 
         // Replace [spicy] with its corresponding image, case-insensitively
         var spicyHTML = '<img alt="Spicy" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651483615ff4e3a188eb7155_hot.svg">';
