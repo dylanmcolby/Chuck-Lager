@@ -521,24 +521,19 @@ document.addEventListener('DOMContentLoaded', function () {
     //RICH TEXT MENU SETUP 
     //
     setTimeout(() => {
-
     $('.menu_items-rich-text').each(function () {
-        // Replace [glutenfree] with its corresponding image
+        // Replace [glutenfree] with its corresponding image, case-insensitively
         var glutenFreeHTML = '<img alt="Gluten Free" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/65148360a9e331145818522c_glutenfree.svg">';
-        $(this).html($(this).html().replace(/\[glutenfree\]/g, glutenFreeHTML));
-        $(this).html($(this).html().replace(/\[GlutenFree\]/g, glutenFreeHTML));
+        $(this).html($(this).html().replace(/\[glutenfree\]/gi, glutenFreeHTML));
 
-        // Replace [spicy] with its corresponding image
+        // Replace [spicy] with its corresponding image, case-insensitively
         var spicyHTML = '<img alt="Spicy" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651483615ff4e3a188eb7155_hot.svg">';
-        $(this).html($(this).html().replace(/\[spicy\]/g, spicyHTML));
-        $(this).html($(this).html().replace(/\[Spicy\]/g, spicyHTML));
+        $(this).html($(this).html().replace(/\[spicy\]/gi, spicyHTML));
 
-        // Replace [regional] with its corresponding image
+        // Replace [regional] with its corresponding image, case-insensitively
         var regionalHTML = '<img alt="Regional" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651484938f6dafebbddc75f9_local.svg">';
-        $(this).html($(this).html().replace(/\[regional\]/g, regionalHTML));
-        $(this).html($(this).html().replace(/\[Regional\]/g, regionalHTML));
+        $(this).html($(this).html().replace(/\[regional\]/gi, regionalHTML));
     });
-
 
     let checkExist = setInterval(function () {
         if (typeof fsAttributes !== 'undefined') {
@@ -553,8 +548,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         } else if (itemsCount < 4) {
                             $(this).addClass('two-column');
                         } else {
-                            $(this).removeClass('two-column');
-                            $(this).removeClass('one-column');
+                            $(this).removeClass('two-column one-column');
                         }
                     });
                 }).catch(function (error) {
@@ -570,7 +564,8 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function () {
         clearInterval(checkExist);
     }, 10000);
- }, 1000);
+}, 1000);
+
 
     //HIDE HOURS THAT AREN'T TODAY
     // Get the current day of the week
