@@ -520,51 +520,57 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     //RICH TEXT MENU SETUP 
     //
-    const targetNode = document.querySelector('.menu_categories');
+    function updateMenuItems() {
+        $('.menu_items-rich-text').each(function () {
+            const icons = {
+                '[glutenfree]': '<img alt="Gluten Free" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/65148360a9e331145818522c_glutenfree.svg">',
+                '[spicy]': '<img alt="Spicy" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651483615ff4e3a188eb7155_hot.svg">',
+                '[regional]': '<img alt="Regional" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651484938f6dafebbddc75f9_local.svg">'
+            };
 
-    if (!targetNode) {
-        console.error('Target node not found.');
-        return;
+            Object.keys(icons).forEach(key => {
+                const regex = new RegExp(key, 'gi'); // Case insensitive
+                const replacement = icons[key];
+                $(this).html($(this).html().replace(regex, replacement));
+            });
+        });
+
+        $('.menu_categories').each(function () {
+            const itemsCount = $(this).children().length;
+            if (itemsCount < 2) {
+                $(this).addClass('one-column');
+            } else if (itemsCount < 4) {
+                $(this).addClass('two-column');
+            } else {
+                $(this).removeClass('one-column two-column');
+            }
+        });
     }
 
-    const config = { childList: true, subtree: true };
+    // Run once on initial load
+    updateMenuItems();
 
-    const callback = function (mutationsList, observer) {
-        for (let mutation of mutationsList) {
-            if (mutation.type === 'childList') {
-                $('.menu_items-rich-text').each(function () {
-                    const icons = {
-                        '[glutenfree]': '<img alt="Gluten Free" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/65148360a9e331145818522c_glutenfree.svg">',
-                        '[spicy]': '<img alt="Spicy" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651483615ff4e3a188eb7155_hot.svg">',
-                        '[regional]': '<img alt="Regional" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651484938f6dafebbddc75f9_local.svg">'
-                    };
-
-                    for (const [key, value] of Object.entries(icons)) {
-                        const regex = new RegExp(key, 'g');
-                        const content = $(this).html().replace(regex, value);
-                        $(this).html(content);
-                    }
-                });
-
-                $('.menu_categories').each(function (index) {
-                    const itemsCount = $(this).children().length;
-                    if (itemsCount < 2) {
-                        $(this).addClass('one-column');
-                    } else if (itemsCount < 4) {
-                        $(this).addClass('two-column');
-                    } else {
-                        $(this).removeClass('two-column one-column');
-                    }
-                });
+    // Set up a mutation observer to watch for changes in menu_categories elements
+    const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if (mutation.type === 'childList' || mutation.type === 'subtree') {
+                updateMenuItems();
             }
-        }
+        });
+    });
+
+    const observerOptions = {
+        childList: true,
+        subtree: true
     };
 
-    const observer = new MutationObserver(callback);
-    observer.observe(targetNode, config);
+    document.querySelectorAll('.menu_categories').forEach(targetNode => {
+        observer.observe(targetNode, observerOptions);
+    });
 
-    // Optionally stop observing after some time
-    setTimeout(() => observer.disconnect(), 10000);
+    // Optional: To disconnect the observer after a certain period, uncomment the following line:
+    // setTimeout(() => observer.disconnect(), 10000);
+});
 
     //HIDE HOURS THAT AREN'T TODAY
     // Get the current day of the week
