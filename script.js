@@ -2,54 +2,54 @@ document.addEventListener('DOMContentLoaded', function () {
     //ANIMATIONS
     const visibleTriggers = document.querySelectorAll('[animtype]');
 
-    const observerCallback = function(entries) {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const targetElements = entry.target.animTargetElements || [entry.target];
-          targetElements.forEach(targetElement => {
-            const delay = Number(targetElement.getAttribute('animtype'));
-            let animScrollValue = targetElement.getAttribute('animscroll') || "20";
-            animScrollValue = parseFloat(animScrollValue) / 100;
-            if(entry.intersectionRatio >= animScrollValue) {
-              setTimeout(() => {
-                targetElement.classList.remove('preload');
-                targetElement.classList.add('load');
-              }, delay);
+    const observerCallback = function (entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const targetElements = entry.target.animTargetElements || [entry.target];
+                targetElements.forEach(targetElement => {
+                    const delay = Number(targetElement.getAttribute('animtype'));
+                    let animScrollValue = targetElement.getAttribute('animscroll') || "20";
+                    animScrollValue = parseFloat(animScrollValue) / 100;
+                    if (entry.intersectionRatio >= animScrollValue) {
+                        setTimeout(() => {
+                            targetElement.classList.remove('preload');
+                            targetElement.classList.add('load');
+                        }, delay);
+                    }
+                });
             }
-          });
-        }
-      });
+        });
     };
 
     const observedParents = new Map();  // A map to keep track of observed parents and their children
 
     visibleTriggers.forEach(element => {
-      let observeTarget = element;
-      
-      if(element.hasAttribute('anim-parent-class')) {
-        const parentClass = element.getAttribute('anim-parent-class');
-        const parentElement = element.closest(`.${parentClass}`);
-        if(parentElement) {
-          observeTarget = parentElement;
-          if (observedParents.has(parentElement)) {
-            observedParents.get(parentElement).push(element);
-          } else {
-            observedParents.set(parentElement, [element]);
-            observeTarget.animTargetElements = observedParents.get(parentElement);
-          }
-        }
-      }
+        let observeTarget = element;
 
-      // Only set up an observer for the parent if it hasn't been set up already
-      if (!observeTarget.animObserver) {
-        let thresholdValue = parseFloat(element.getAttribute('animscroll') || "20") / 100;
-        const observerOptions = {
-          threshold: thresholdValue,
-        };
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-        observer.observe(observeTarget);
-        observeTarget.animObserver = observer; // Mark the parent as observed
-      }
+        if (element.hasAttribute('anim-parent-class')) {
+            const parentClass = element.getAttribute('anim-parent-class');
+            const parentElement = element.closest(`.${parentClass}`);
+            if (parentElement) {
+                observeTarget = parentElement;
+                if (observedParents.has(parentElement)) {
+                    observedParents.get(parentElement).push(element);
+                } else {
+                    observedParents.set(parentElement, [element]);
+                    observeTarget.animTargetElements = observedParents.get(parentElement);
+                }
+            }
+        }
+
+        // Only set up an observer for the parent if it hasn't been set up already
+        if (!observeTarget.animObserver) {
+            let thresholdValue = parseFloat(element.getAttribute('animscroll') || "20") / 100;
+            const observerOptions = {
+                threshold: thresholdValue,
+            };
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+            observer.observe(observeTarget);
+            observeTarget.animObserver = observer; // Mark the parent as observed
+        }
     });
 
 
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function handleConfirmClick(event, confirmId) {
         var link = $(this).attr('href');
         var currentDomain = window.location.hostname;
-    
+
         if (link) {
             try {
                 var url = new URL(link, window.location.href);
@@ -360,7 +360,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         };
                     });
                 };
-            };
+            } else {
+                // If on the main page, refresh the page with the parameter 'showlocation=true'
+                if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+                    window.location.href = window.location.origin + '/?showlocation=true';
+                    shouldExit = true;
+                }
+            }
         };
         //continue to update all links and states if window does not need to be changed
         if (shouldExit == false) {
@@ -409,6 +415,10 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
         }
+    }
+    if (new URLSearchParams(window.location.search).get('showlocation') === 'true') {
+        $('#location-popup').show(); // Assuming the popup has an ID of 'location-popup'
+        $('.nav-loc-dropdown').addClass('visible');
     }
     //CHECK IF LOCATION COOKIE EXISTS, IF NOT, SET IT
     setManualLocationListener();
@@ -521,50 +531,50 @@ document.addEventListener('DOMContentLoaded', function () {
     //RICH TEXT MENU SETUP 
     //
     setTimeout(() => {
-    $('.menu_items-rich-text').each(function () {
-        // Replace [glutenfree] and [gluten free] with its corresponding image, case-insensitively
-        var glutenFreeHTML = '<img alt="Gluten Free" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/65148360a9e331145818522c_glutenfree.svg">';
-        $(this).html($(this).html().replace(/\[gluten\s?free\]/gi, glutenFreeHTML));
+        $('.menu_items-rich-text').each(function () {
+            // Replace [glutenfree] and [gluten free] with its corresponding image, case-insensitively
+            var glutenFreeHTML = '<img alt="Gluten Free" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/65148360a9e331145818522c_glutenfree.svg">';
+            $(this).html($(this).html().replace(/\[gluten\s?free\]/gi, glutenFreeHTML));
 
-        // Replace [spicy] with its corresponding image, case-insensitively
-        var spicyHTML = '<img alt="Spicy" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651483615ff4e3a188eb7155_hot.svg">';
-        $(this).html($(this).html().replace(/\[spicy\]/gi, spicyHTML));
+            // Replace [spicy] with its corresponding image, case-insensitively
+            var spicyHTML = '<img alt="Spicy" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651483615ff4e3a188eb7155_hot.svg">';
+            $(this).html($(this).html().replace(/\[spicy\]/gi, spicyHTML));
 
-        // Replace [regional] with its corresponding image, case-insensitively
-        var regionalHTML = '<img alt="Regional" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651484938f6dafebbddc75f9_local.svg">';
-        $(this).html($(this).html().replace(/\[regional\]/gi, regionalHTML));
-    });
+            // Replace [regional] with its corresponding image, case-insensitively
+            var regionalHTML = '<img alt="Regional" style="display:inline-block;margin-top:-.25rem" class="icon-1x1-xsmall" src="https://uploads-ssl.webflow.com/6501f8d7518f57ff9967db13/651484938f6dafebbddc75f9_local.svg">';
+            $(this).html($(this).html().replace(/\[regional\]/gi, regionalHTML));
+        });
 
-    let checkExist = setInterval(function () {
-        if (typeof fsAttributes !== 'undefined') {
-            clearInterval(checkExist); // stop the interval
-            if (fsAttributes && fsAttributes.cmsnest && fsAttributes.cmsnest.loading) {
-                fsAttributes.cmsnest.loading.then(function (result) {
-                    $('.menu_categories').each(function (index) {
-                        const itemsCount = $(this).children().length;
+        let checkExist = setInterval(function () {
+            if (typeof fsAttributes !== 'undefined') {
+                clearInterval(checkExist); // stop the interval
+                if (fsAttributes && fsAttributes.cmsnest && fsAttributes.cmsnest.loading) {
+                    fsAttributes.cmsnest.loading.then(function (result) {
+                        $('.menu_categories').each(function (index) {
+                            const itemsCount = $(this).children().length;
 
-                        if (itemsCount < 2) {
-                            $(this).addClass('one-column');
-                        } else if (itemsCount < 4) {
-                            $(this).addClass('two-column');
-                        } else {
-                            $(this).removeClass('two-column one-column');
-                        }
+                            if (itemsCount < 2) {
+                                $(this).addClass('one-column');
+                            } else if (itemsCount < 4) {
+                                $(this).addClass('two-column');
+                            } else {
+                                $(this).removeClass('two-column one-column');
+                            }
+                        });
+                    }).catch(function (error) {
+                        console.log('Promise rejected with error:', error);
                     });
-                }).catch(function (error) {
-                    console.log('Promise rejected with error:', error);
-                });
-            } else {
-                console.log('fsAttributes or its properties do not exist.');
+                } else {
+                    console.log('fsAttributes or its properties do not exist.');
+                }
             }
-        }
-    }, 100); // check every 100ms
+        }, 100); // check every 100ms
 
-    // Stop checking after 10 seconds
-    setTimeout(function () {
-        clearInterval(checkExist);
-    }, 10000);
-}, 1000);
+        // Stop checking after 10 seconds
+        setTimeout(function () {
+            clearInterval(checkExist);
+        }, 10000);
+    }, 1000);
 
 
     //HIDE HOURS THAT AREN'T TODAY
