@@ -417,8 +417,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     if (new URLSearchParams(window.location.search).get('showlocation') === 'true') {
-        $('#location-popup').show(); // Assuming the popup has an ID of 'location-popup'
-        $('.nav-loc-dropdown').addClass('visible');
+        $('#nav-loc-dropdown').addClass('visible');
     }
     //CHECK IF LOCATION COOKIE EXISTS, IF NOT, SET IT
     setManualLocationListener();
